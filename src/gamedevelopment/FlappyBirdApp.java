@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import jdk.nashorn.internal.ir.ReturnNode;
+
 public class FlappyBirdApp extends JFrame{
 
 	
@@ -14,8 +16,8 @@ public class FlappyBirdApp extends JFrame{
 	private JPanel panel;
 	
 	//Nach Architekturmuster Model-View-Presenter
-	private FlappyBirdCanvas canvas;
-	private FlappyBirdPresenter presenter;
+	private FlappyBirdCanvas backgroundCanvas; //Am ende der View
+	private FlappyBirdPresenter presenter; //Am ende der Presenter
 	
 	public static void main(String[] args) {
 		
@@ -32,15 +34,12 @@ public class FlappyBirdApp extends JFrame{
 		initialize();
 	}
 	
+
+
+	/**
+	*	JFrame inizialisieren
+	*/
 	
-	protected void setPresenter(FlappyBirdPresenter presenter) {
-		this.presenter = presenter;
-		
-	}
-
-
-
-
 	private void initialize() {
 		
 		this.setBounds(100, 100, 800, 600);
@@ -58,10 +57,22 @@ public class FlappyBirdApp extends JFrame{
 		this.add(panel, BorderLayout.NORTH);
 		**/
 		
-		canvas = new FlappyBirdCanvas();
-		this.add(canvas, BorderLayout.CENTER);
+		backgroundCanvas = new FlappyBirdCanvas();
+		this.add(backgroundCanvas, BorderLayout.CENTER);
 
 		
 	}
+	
+	private void setPresenter(FlappyBirdPresenter presenter) {
+		this.presenter = presenter;
+		
+	}
+
+	public FlappyBirdCanvas getFlappyBirdCanvas() {
+		// TODO Auto-generated method stub
+		return backgroundCanvas;
+	}
+
+	
 }
 
