@@ -1,5 +1,5 @@
 package model;
 
-public class Bird {
+public class Bird extends PlayerObject{
 
 }
