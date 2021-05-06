@@ -26,7 +26,7 @@ public class FlappyBirdApp extends JFrame{
 		window.setPresenter(presenter); //presenter wird JFrame zugewisen
 		window.setVisible(true); //JFrame wird sichtbar gemacht
 		
-		//try catch einbauen? wie im oceanapp git
+		//TODO: try catch einbauen? wie im oceanapp git
 			
 	}
 
@@ -42,7 +42,7 @@ public class FlappyBirdApp extends JFrame{
 	
 	private void initialize() {
 		
-		this.setBounds(100, 100, 800, 600);
+		this.setBounds(0, 0, 1080, 720);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		
@@ -50,6 +50,7 @@ public class FlappyBirdApp extends JFrame{
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		
 		/**
+		 * Noch aus Pries beispiel, glaue nicht mehr nötig?
 		flowLayout.setHgap(10);
 		flowLayout.setVgap(10);
 		flowLayout.setAlignment(FlowLayout.LEFT);
