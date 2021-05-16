@@ -1,6 +1,7 @@
 package gamedevelopment;
 
 import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,11 +19,11 @@ public class FlappyBirdPresenter {
 	private Background background;
 	
 	private Timer timer;
-	private int frameTime = 10;
-	private int counter = 20; //wieviele röhren es geben soll
-	private int grav = 20; //gravitation mit der Bird Y+ addiert wird
+	private int frameTime = 5;
+	private int tubeCounter = 20; //wieviele röhren es geben soll
+	private double grav = 2; //gravitation mit der Bird Y+ addiert wird
 	
-	private Set<Integer> tastaturEingaben = new HashSet<Integer>();
+	private Set<Integer> statusTasten = new HashSet<Integer>();
 	
 	
 	public FlappyBirdPresenter(FlappyBirdApp window) {
@@ -43,7 +44,7 @@ public class FlappyBirdPresenter {
 		
 		timer = new Timer(frameTime, e-> {
 			updatePlayer(); //player steuerung
-			updateTubes(); //background tube bewegung
+			background.moveAll(); //background tube bewegung
 			
 			canvas.repaint();
 		});
@@ -53,27 +54,39 @@ public class FlappyBirdPresenter {
 	}
 
 
-	private void updateTubes() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	private void updatePlayer() {
 		
 		//background.getPlayer().ClearDistances(); ? OceanPresenter Z. 64 von prieß
-
-		if(tastaturEingaben.contains(KeyEvent.VK_W) || //für WASD
-				tastaturEingaben.contains(KeyEvent.VK_UP) || //für Pfeiltasten
-				tastaturEingaben.contains(KeyEvent.VK_SPACE) //für Space
+	
+		background.getBird().ClearDistances();
+		
+		if(statusTasten.contains(KeyEvent.VK_W) || //für WASD
+				statusTasten.contains(KeyEvent.VK_UP) || //für Pfeiltasten
+				statusTasten.contains(KeyEvent.VK_SPACE) //für Space
 				) {
 			background.getBird().setDistanceY(-frameTime);
 		}
 		
 		//TODO Maussteuerung on linkslick 
 		
+		window.setStatusTasten(statusTasten); 
+		
 		//gravitation
 		background.getBird().setDistanceY(grav);
+		
+	}
+
+
+	public void addStatusTasten(int gedruckteTaste) {
+		 statusTasten.add(gedruckteTaste);
+	}
+	public void removeStatusTasten(int losgelasseneTaste) {
+		statusTasten.remove(losgelasseneTaste);
+	}
+
+
+	private void addKeyListener(KeyAdapter keyAdapter) {
+		// TODO Auto-generated method stub
 		
 	}
 

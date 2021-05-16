@@ -2,7 +2,7 @@ package model;
 
 import java.awt.Image;
 
-public class GameObject implements ImageObject{
+public abstract class GameObject implements ImageObject{
 
 	private String name;
 	private Image image;
@@ -50,5 +50,7 @@ public class GameObject implements ImageObject{
 	public String getName() {
 		return name;
 	}
+
+	public abstract void move();
 
 }

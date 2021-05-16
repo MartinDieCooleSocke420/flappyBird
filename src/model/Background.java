@@ -12,7 +12,7 @@ public class Background {
 	private double width, height;
 	
 	private List<GameObject> gameObjects = new ArrayList<>();
-	
+
 	private Bird bird;
 	
 	public Background( double width, double height) {
@@ -20,7 +20,7 @@ public class Background {
 		this.height = height;
 	
 		bird = (Bird) GameObjectFactory.createGameObject("Player1", 
-				GameObjectFactory.BIRD, width/2, height/2, this);
+				GameObjectFactory.BIRD, 2, 200, this);
 		gameObjects.add(bird);
 	}
 
@@ -56,6 +56,14 @@ public class Background {
 	public List<ImageObject> getGameObjects(){
 		return java.util.Collections.unmodifiableList(gameObjects);
 		//übergibt unveränderbare list damit der View beim zugriff nichts verändern kann
+	}
+
+	public void moveAll() {
+		
+		//bewegt jede röhre mit dem übergebenen speed
+		for (GameObject gameObject : gameObjects) {
+			gameObject.move();
+		}
 	}
 
 

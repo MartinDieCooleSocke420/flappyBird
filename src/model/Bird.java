@@ -5,15 +5,16 @@ import java.awt.Image;
 //PlayerObject
 public class Bird extends GameObject {
 	
-	private double speed = 5;
+	private double speed;
+	private double distanceY;
 
-	public Bird(String name, double x, double y, double width, double height, Image image, Background background) {
+	public Bird(String name, double x, double y, double width, double height, Image image, Background background, double speed) {
 		super(name, x, y, width, height, image, background);
+		this.speed = speed;
 	}
-	//TODO: Evtl. speed in den konstruktor schreiben, und diesen dann von der GameObjectFactory übergeben
 	
-	public void setDistanceY(int frameTime) {
-		this.y += speed * frameTime;
+	public void setDistanceY(double frameTime) {
+		distanceY += speed * frameTime;
 		
 	}
 
@@ -24,4 +25,17 @@ public class Bird extends GameObject {
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
+
+	@Override
+	public void move() {
+		y += distanceY;
+		
+	}
+
+	public void ClearDistances() {
+		distanceY = 0.0;
+		
+	}
+
+	
 }

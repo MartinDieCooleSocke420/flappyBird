@@ -18,10 +18,10 @@ public class GameObjectFactory {
 		
 		switch(type) {
 		
-		case "Bird": 
+		case BIRD: 
 			Image imgBird = loadImage("img/bird.png");
 			if(imgBird != null) {
-				result = new Bird(name, x, y, imgBird.getWidth(null), imgBird.getHeight(null), imgBird, background);
+				result = new Bird(name, x, y, imgBird.getWidth(null), imgBird.getHeight(null), imgBird, background, 3);
 			}
 			break;
 		

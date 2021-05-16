@@ -3,6 +3,11 @@ package gamedevelopment;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +23,11 @@ public class FlappyBirdApp extends JFrame{
 	//Nach Architekturmuster Model-View-Presenter
 	private FlappyBirdCanvas backgroundCanvas; //Am ende der View
 	private FlappyBirdPresenter presenter; //Am ende der Presenter
+	
+
+	//ein collection Set für die Steuerung
+	private Set<Integer> statusTasten = new HashSet<Integer>();
+	
 	
 	public static void main(String[] args) {
 		
@@ -50,7 +60,7 @@ public class FlappyBirdApp extends JFrame{
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		
 		/**
-		 * Noch aus Pries beispiel, glaue nicht mehr nötig?
+			Noch aus Pries beispiel, glaue nicht mehr nötig?
 		flowLayout.setHgap(10);
 		flowLayout.setVgap(10);
 		flowLayout.setAlignment(FlowLayout.LEFT);
@@ -60,6 +70,22 @@ public class FlappyBirdApp extends JFrame{
 		
 		backgroundCanvas = new FlappyBirdCanvas();
 		this.add(backgroundCanvas, BorderLayout.CENTER);
+		
+		//ereignisbehandlung
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+
+			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_SPACE) {
+				if(e.getID() == KeyEvent.KEY_PRESSED) {
+					presenter.addStatusTasten(e.getKeyCode());
+					
+				}
+				else if(e.getID() == KeyEvent.KEY_RELEASED) {
+					presenter.removeStatusTasten(e.getKeyCode());	
+				}
+				return true;
+			}
+			return false;
+		});
 
 		
 	}
@@ -71,6 +97,10 @@ public class FlappyBirdApp extends JFrame{
 
 	public FlappyBirdCanvas getFlappyBirdCanvas() {
 		return backgroundCanvas;
+	}
+	
+	public void setStatusTasten(Set<Integer> statusTasten) {
+		this.statusTasten = statusTasten;
 	}
 
 	
