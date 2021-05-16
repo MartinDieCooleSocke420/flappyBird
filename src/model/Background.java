@@ -55,5 +55,8 @@ public class Background {
 	
 	public List<ImageObject> getGameObjects(){
 		return java.util.Collections.unmodifiableList(gameObjects);
+		//übergibt unveränderbare list damit der View beim zugriff nichts verändern kann
 	}
+
+
 }

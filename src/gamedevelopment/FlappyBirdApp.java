@@ -70,7 +70,6 @@ public class FlappyBirdApp extends JFrame{
 	}
 
 	public FlappyBirdCanvas getFlappyBirdCanvas() {
-		// TODO Auto-generated method stub
 		return backgroundCanvas;
 	}
 
