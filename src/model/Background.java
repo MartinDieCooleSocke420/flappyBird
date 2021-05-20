@@ -99,23 +99,21 @@ public class Background {
 	}
 
 	public void generateTube() {
-		
-		double gap = generateGap();
+
+		//gap ist hierbei nicht die Lücke sondern eher die höhenverschiebung um welche beide röhren auf y verschoben wird
+		//je größer der Multiplikator von random() ist desto größer sind die schwankungen
+		double gap = Math.random()*350;
 		
 		//TODO: Nicht TubeBot und TubeTop aufrufen!!
 		//TODO: Random abstand generieren zwischen den Röhren
-		GameObject tubeBot = GameObjectFactory.createGameObject("tubeBot", GameObjectFactory.TUBEB, this.getWidth(), this.getHeight()-(300*gap), this);
-		GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1500*gap), this);
+		GameObject tubeBot = GameObjectFactory.createGameObject("tubeBot", GameObjectFactory.TUBEB, this.getWidth(), this.getHeight()-(400-gap), this);
+		GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1400-gap), this);
 		gameObjects.add(tubeBot);
 		gameObjects.add(tubeTop);
 		System.out.println("Tube Generated in Background");
+		
 	}
 
-	private double generateGap() {	
-		
-		
-		return (int) Math.random();
-	}
 
 	//zum Überprüfen ob Objekt im 
 	public boolean isObjectInBackground(double x, double y, double width, double height) {

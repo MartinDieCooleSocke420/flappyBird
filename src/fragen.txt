@@ -1,2 +1,2 @@
 Werden Bilder wie paintComponents behandelt
-
+Wie das menü verbauen
