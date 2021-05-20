@@ -11,7 +11,14 @@ public class Tube extends GameObject {
 	}
 
 	public void move() {
-		x += tubeSpeed;		
+		
+		x -= tubeSpeed;	
+		dead = false;
+//		
+//		if(!background.isObjectInBackground(x, y, width, height)) {
+//			x += tubeSpeed;		
+//			dead = false;
+//		}
 	}
 
 

@@ -20,9 +20,9 @@ public class FlappyBirdPresenter {
 	
 	private Timer timer;
 	private int frameTime = 5;
-	private int tubeCounter = 20; //wieviele röhren es geben soll
+	private int tubeCounter; //wieviele röhren es geben soll
 	private double grav = 2; //gravitation mit der Bird Y+ addiert wird
-	
+
 	private Set<Integer> statusTasten = new HashSet<Integer>();
 	
 	
@@ -44,8 +44,14 @@ public class FlappyBirdPresenter {
 		
 		timer = new Timer(frameTime, e-> {
 			updatePlayer(); //player steuerung
-			background.moveAll(); //background tube bewegung
 			
+			
+			if (tubeCounter == 100) {
+				background.generateTube();
+				tubeCounter = 0;
+			}
+			tubeCounter++;
+			background.moveAll(); //background tube bewegung
 			canvas.repaint();
 		});
 		

@@ -28,7 +28,14 @@ public class Bird extends GameObject {
 
 	@Override
 	public void move() {
+		if(!background.isObjectInBackground(x, y, width, height)) {
+			return;
+		}
+		
 		y += distanceY;
+		dead = false;
+		
+		//TODO: If colision with Tube
 		
 	}
 

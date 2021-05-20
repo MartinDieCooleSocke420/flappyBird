@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 public class GameObjectFactory {
 	
 	public final static String BIRD = "Bird";
+	public static final String TUBET = "TubeT";
+	public static final String TUBEB = "TubeB";
 	
 	public static GameObject createGameObject(String name, String type, double x, double y, Background background) {
 		
@@ -19,12 +21,23 @@ public class GameObjectFactory {
 		switch(type) {
 		
 		case BIRD: 
-			Image imgBird = loadImage("img/bird.png");
+			Image imgBird = loadImage("img/bird.gif");
 			if(imgBird != null) {
 				result = new Bird(name, x, y, imgBird.getWidth(null), imgBird.getHeight(null), imgBird, background, 3);
 			}
 			break;
-		
+		case TUBEB:
+			Image imgTube = loadImage("img/tube.png");
+			if(imgTube != null) {
+				result = new Tube(name, x, y, imgTube.getWidth(null), imgTube.getHeight(null), imgTube, background);
+			}
+			break;
+		case TUBET:
+			Image imgTubeTop = loadImage("img/tubeTop.png");
+			if(imgTubeTop != null) {
+				result = new Tube(name, x, y, imgTubeTop.getWidth(null), imgTubeTop.getHeight(null), imgTubeTop, background);
+			}
+			break;
 		}
 		
 		return result;
