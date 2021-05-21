@@ -68,6 +68,7 @@ public class FlappyBirdApp extends JFrame{
 		this.add(panel, BorderLayout.NORTH);
 		**/
 		
+		//TODO: hier startmenü punkt - als modal (muss bearbeitet werden) jDialog
 		backgroundCanvas = new FlappyBirdCanvas();
 		this.add(backgroundCanvas, BorderLayout.CENTER);
 		

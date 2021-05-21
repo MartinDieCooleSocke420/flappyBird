@@ -45,8 +45,8 @@ public class FlappyBirdPresenter {
 		timer = new Timer(frameTime, e-> {
 			updatePlayer(); //player steuerung
 			
-			
-			if (tubeCounter == 100) {
+			//wie häufig eine tube auftaucht
+			if (tubeCounter == 250) {
 				background.generateTube();
 				tubeCounter = 0;
 			}
