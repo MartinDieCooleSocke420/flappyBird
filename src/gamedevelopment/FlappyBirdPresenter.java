@@ -20,8 +20,8 @@ public class FlappyBirdPresenter {
 	
 	private Timer timer;
 	private int frameTime = 5;
-	private int tubeCounter; //wieviele röhren es geben soll
 	private double grav = 2; //gravitation mit der Bird Y+ addiert wird
+	
 
 	private Set<Integer> statusTasten = new HashSet<Integer>();
 	
@@ -43,15 +43,9 @@ public class FlappyBirdPresenter {
 		//GameObjects implementieren ImageObject daher möglich
 		
 		timer = new Timer(frameTime, e-> {
-			updatePlayer(); //player steuerung
-			
-			//wie häufig eine tube auftaucht
-			if (tubeCounter == 250) {
-				background.generateTube();
-				tubeCounter = 0;
-			}
-			tubeCounter++;
-			background.moveAll(); //background tube bewegung
+			updatePlayer();
+			background.generateTube(); 
+			background.moveAll();
 			canvas.repaint();
 		});
 		

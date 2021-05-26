@@ -14,7 +14,7 @@ public class Tube extends GameObject {
 	}
 
 	public void move() {
-		
+	
 		x -= tubeSpeed;	
 		dead = false;
 //		

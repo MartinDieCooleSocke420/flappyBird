@@ -92,25 +92,43 @@ public class Background {
 		
 		Predicate<GameObject> myPredicate = (GameObject o) -> (o.dead);
 		gameObjects.removeIf(myPredicate);
-		
-		//TODO: funktioniert nicht
+
 		
 		
 	}
 
 	public void generateTube() {
+		
+		
+		double abstand = 0.5; //nach wieviel prozent vom canvas eine neue röhre kommen soll
+		boolean toCreate = true;
+		
+		for (GameObject gameObject : gameObjects) {
+			
+			//Wenn game Object eine Tube
+			if(gameObject.getClass() == Tube.class) {
 
+				//Die vorherigen tubes müssen beim abstand spawnen
+				if(gameObject.getX() % (width * abstand) != 0) {
+					toCreate = false;
+				}
+				
+			}
+		}
+		
+		
 		//gap ist hierbei nicht die Lücke sondern eher die höhenverschiebung um welche beide röhren auf y verschoben wird
 		//je größer der Multiplikator von random() ist desto größer sind die schwankungen
 		double gap = Math.random()*350;
 		
-		//TODO: Nicht TubeBot und TubeTop aufrufen!!
-		//TODO: Random abstand generieren zwischen den Röhren
-		GameObject tubeBot = GameObjectFactory.createGameObject("tubeBot", GameObjectFactory.TUBEB, this.getWidth(), this.getHeight()-(400-gap), this);
-		GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1400-gap), this);
-		gameObjects.add(tubeBot);
-		gameObjects.add(tubeTop);
-		System.out.println("Tube Generated in Background");
+		if(toCreate) {
+			//TODO: Nicht TubeBot und TubeTop aufrufen!!
+			GameObject tubeBot = GameObjectFactory.createGameObject("tubeBot", GameObjectFactory.TUBEB, this.getWidth(), this.getHeight()-(400-gap), this);
+			GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1500-gap), this);
+			gameObjects.add(tubeBot);
+			gameObjects.add(tubeTop);
+			System.out.println("Tube Generated in Background");
+		}
 		
 	}
 
