@@ -20,7 +20,6 @@ public class FlappyBirdPresenter {
 	
 	private Timer timer;
 	private int frameTime = 5;
-	private double grav = 2; //gravitation mit der Bird Y+ addiert wird
 	
 
 	private Set<Integer> statusTasten = new HashSet<Integer>();
@@ -29,8 +28,7 @@ public class FlappyBirdPresenter {
 	public FlappyBirdPresenter(FlappyBirdApp window) {
 		this.window = window;
 		canvas = window.getFlappyBirdCanvas();
-		
-		//Den Hintergrund festlegen
+	
 		background = new Background(window.getWidth(),window.getHeight());
 		canvas.setPreferredSize(new Dimension(window.getWidth(), window.getHeight()));
 		
@@ -42,9 +40,15 @@ public class FlappyBirdPresenter {
 		canvas.setImageObjects(background.getGameObjects());
 		//GameObjects implementieren ImageObject daher möglich
 		
+		//TODO: einbauen, dass hier ein Wert für die bird gravitation übergeben wird
+		background.generatePlayer(5);
+		
 		timer = new Timer(frameTime, e-> {
 			updatePlayer();
-			background.generateTube(); 
+			
+			//TODO: Einbauen das man die werte z.B. durch regler im View verändern kann
+//			erster wert die heufigkeit wie offt etwas spawnd zweiter die geschwindigkeit
+			background.generateTube(0.5, 10); 
 			background.moveAll();
 			canvas.repaint();
 		});
@@ -72,7 +76,7 @@ public class FlappyBirdPresenter {
 		window.setStatusTasten(statusTasten); 
 		
 		//gravitation
-		background.getBird().setDistanceY(grav);
+//		background.getBird().setDistanceY(grav);
 		
 	}
 

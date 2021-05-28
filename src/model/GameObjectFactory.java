@@ -14,7 +14,7 @@ public class GameObjectFactory {
 	public static final String TUBET = "TubeT";
 	public static final String TUBEB = "TubeB";
 	
-	public static GameObject createGameObject(String name, String type, double x, double y, Background background) {
+	public static GameObject createGameObject(String name, String type, double x, double y, Background background, double speed) {
 		
 		GameObject result = null;
 		
@@ -23,19 +23,19 @@ public class GameObjectFactory {
 		case BIRD: 
 			Image imgBird = loadImage("img/bird.gif");
 			if(imgBird != null) {
-				result = new Bird(name, x, y, imgBird.getWidth(null), imgBird.getHeight(null), imgBird, background, 3);
+				result = new Bird(name, x, y, imgBird.getWidth(null), imgBird.getHeight(null), imgBird, background, speed);
 			}
 			break;
 		case TUBEB:
 			Image imgTube = loadImage("img/tube.png");
 			if(imgTube != null) {
-				result = new Tube(name, x, y, imgTube.getWidth(null), imgTube.getHeight(null), imgTube, background);
+				result = new Tube(name, x, y, imgTube.getWidth(null), imgTube.getHeight(null), imgTube, background, speed);
 			}
 			break;
 		case TUBET:
 			Image imgTubeTop = loadImage("img/tubeTop.png");
 			if(imgTubeTop != null) {
-				result = new Tube(name, x, y, imgTubeTop.getWidth(null), imgTubeTop.getHeight(null), imgTubeTop, background);
+				result = new Tube(name, x, y, imgTubeTop.getWidth(null), imgTubeTop.getHeight(null), imgTubeTop, background, speed);
 			}
 			break;
 		}

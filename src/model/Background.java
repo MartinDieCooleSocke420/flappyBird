@@ -18,14 +18,7 @@ public class Background {
 	
 	public Background( double width, double height) {
 		this.width = width;
-		this.height = height;
-	
-		bird = (Bird) GameObjectFactory.createGameObject("Player1", 
-				GameObjectFactory.BIRD, 150, 200, this);
-		gameObjects.add(bird);
-		
-		//TODO: generateTube zum ersten mal ausführen hier um eine Start tube zu haben?
-		
+		this.height = height;		
 	}
 
 	public double getWidth() {
@@ -97,10 +90,10 @@ public class Background {
 		
 	}
 
-	public void generateTube() {
+	public void generateTube(double abstand, double speed) {
 		
 		
-		double abstand = 0.5; //nach wieviel prozent vom canvas eine neue röhre kommen soll
+		//abstand ist - nach wieviel prozent vom canvas eine neue röhre kommen soll
 		boolean toCreate = true;
 		
 		for (GameObject gameObject : gameObjects) {
@@ -109,7 +102,7 @@ public class Background {
 			if(gameObject.getClass() == Tube.class) {
 
 				//Die vorherigen tubes müssen beim abstand spawnen
-				if(gameObject.getX() % (width * abstand) != 0) {
+				if(gameObject.getX() % (width * abstand) > 0.3) {
 					toCreate = false;
 				}
 				
@@ -123,19 +116,24 @@ public class Background {
 		
 		if(toCreate) {
 			//TODO: Nicht TubeBot und TubeTop aufrufen!!
-			GameObject tubeBot = GameObjectFactory.createGameObject("tubeBot", GameObjectFactory.TUBEB, this.getWidth(), this.getHeight()-(400-gap), this);
-			GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1500-gap), this);
+			GameObject tubeBot = GameObjectFactory.createGameObject("tubeBot", GameObjectFactory.TUBEB, this.getWidth(), this.getHeight()-(400-gap), this, speed);
+			GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1500-gap), this, speed);
 			gameObjects.add(tubeBot);
 			gameObjects.add(tubeTop);
 			System.out.println("Tube Generated in Background");
 		}
-		
 	}
 
 
 	//zum Überprüfen ob Objekt im 
 	public boolean isObjectInBackground(double x, double y, double width, double height) {
 		return (x > 0 && x + width < this.width && y > 0 && y + height < this.height);
+	}
+
+	public void generatePlayer(double speed) {
+		bird = (Bird) GameObjectFactory.createGameObject("Player1", 
+				GameObjectFactory.BIRD, 150, 200, this, 5);
+		gameObjects.add(bird);
 	}
 	
 }
