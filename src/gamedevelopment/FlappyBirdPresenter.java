@@ -20,6 +20,7 @@ public class FlappyBirdPresenter {
 	
 	private Timer timer;
 	private int frameTime = 5;
+	private double grav = 2; //gravitation mit der Bird Y+ addiert wird
 	
 
 	private Set<Integer> statusTasten = new HashSet<Integer>();
@@ -28,45 +29,44 @@ public class FlappyBirdPresenter {
 	public FlappyBirdPresenter(FlappyBirdApp window) {
 		this.window = window;
 		canvas = window.getFlappyBirdCanvas();
-	
+		
+		//Den Hintergrund festlegen
 		background = new Background(window.getWidth(),window.getHeight());
 		canvas.setPreferredSize(new Dimension(window.getWidth(), window.getHeight()));
+		window.setVisible(true);
 		
 		
 		/* 
-		 * eine nicht veränderbare Liste wird vom Background (Model) an den
-		 * FlappyBirdCanvas(View) übergeben		
+		 * eine nicht verï¿½nderbare Liste wird vom Background (Model) an den
+		 * FlappyBirdCanvas(View) ï¿½bergeben		
 		*/
 		canvas.setImageObjects(background.getGameObjects());
-		//GameObjects implementieren ImageObject daher möglich
-		
-		//TODO: einbauen, dass hier ein Wert für die bird gravitation übergeben wird
-		background.generatePlayer(5);
+		//GameObjects implementieren ImageObject daher mï¿½glich
 		
 		timer = new Timer(frameTime, e-> {
+			if(FlappyBirdApp.started) {
 			updatePlayer();
-			
-			//TODO: Einbauen das man die werte z.B. durch regler im View verändern kann
-//			erster wert die heufigkeit wie offt etwas spawnd zweiter die geschwindigkeit
-			background.generateTube(0.5, 10); 
+			background.generateTube(); 
 			background.moveAll();
 			canvas.repaint();
+			}
 		});
 		
-		timer.start();		
+			timer.start();		
 		
-	}
+		
+		}
 
 
 	private void updatePlayer() {
 		
-		//background.getPlayer().ClearDistances(); ? OceanPresenter Z. 64 von prieß
+		//background.getPlayer().ClearDistances(); ? OceanPresenter Z. 64 von prieï¿½
 	
 		background.getBird().ClearDistances();
 		
-		if(statusTasten.contains(KeyEvent.VK_W) || //für WASD
-				statusTasten.contains(KeyEvent.VK_UP) || //für Pfeiltasten
-				statusTasten.contains(KeyEvent.VK_SPACE) //für Space
+		if(statusTasten.contains(KeyEvent.VK_W) || //fï¿½r WASD
+				statusTasten.contains(KeyEvent.VK_UP) || //fï¿½r Pfeiltasten
+				statusTasten.contains(KeyEvent.VK_SPACE) //fï¿½r Space
 				) {
 			background.getBird().setDistanceY(-frameTime);
 		}
@@ -76,7 +76,7 @@ public class FlappyBirdPresenter {
 		window.setStatusTasten(statusTasten); 
 		
 		//gravitation
-//		background.getBird().setDistanceY(grav);
+		background.getBird().setDistanceY(grav);
 		
 	}
 

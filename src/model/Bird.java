@@ -5,26 +5,29 @@ import java.awt.Image;
 //PlayerObject
 public class Bird extends GameObject {
 	
-	private double grav;
+	private double speed;
 	private double distanceY;
 
-	public Bird(String name, double x, double y, double width, double height, Image image, Background background, double grav) {
+	public Bird(String name, double x, double y, double width, double height, Image image, Background background, double speed) {
 		super(name, x, y, width, height, image, background);
-		this.grav = grav;
+		this.speed = speed;
 	}
 	
 	public void setDistanceY(double frameTime) {
+		distanceY += speed * frameTime;
 		
-		//berechnet aus der gravitation und frametime eine optimale Geschwindigkeit für den player
-		distanceY += frameTime - grav - 1;
-		
+	}
+
+	public double getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(double speed) {
+		this.speed = speed;
 	}
 
 	@Override
 	public void move() {
-		
-		y += grav;
-		
 		if(!background.isObjectInBackground(x, y, width, height)) {
 			return;
 		}
@@ -32,6 +35,7 @@ public class Bird extends GameObject {
 		y += distanceY;
 		dead = false;
 		
+		//TODO: If colision with Tube
 		
 	}
 

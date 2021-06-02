@@ -24,11 +24,11 @@ public class FlappyBirdCanvas extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-	
+				
 		//TODO: Graphics 2D? Was vorteile evtl eine typumwandlung
 		super.paintComponent(g);
 		
-		//alle imageObjecte hinzufügen
+		//alle imageObjecte hinzufï¿½gen
 		for (ImageObject imageObject : imageObjects) {
 			g.drawImage(imageObject.getImage(), (int) imageObject.getX(), (int) imageObject.getY(), null);
 		}
