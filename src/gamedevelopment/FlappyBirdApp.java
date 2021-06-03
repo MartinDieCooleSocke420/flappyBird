@@ -1,6 +1,7 @@
 package gamedevelopment;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,10 +10,12 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -22,7 +25,8 @@ public class FlappyBirdApp extends JFrame {
 	private static final long serialVersionUID = 1L;
 //	private JPanel panel;
 	private static JPanel menu;
-	static boolean started = false;
+	private boolean started = false;
+	private double difficulty[] =  new double[3]; 
 	
 	//Nach Architektur des Model-View-Presenter
 	private static FlappyBirdCanvas backgroundCanvas; //Am ende der View
@@ -41,10 +45,14 @@ public class FlappyBirdApp extends JFrame {
 		
 		menu = new JPanel(new GridBagLayout());
 		
+		menu.setBackground(Color.DARK_GRAY);
+		menu.setVisible(true);
+				
 		JButton start = new JButton("START");
 		start.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				started = true;
+				window.started = true;
 				FlappyBirdCanvas fbc = new FlappyBirdCanvas();
 				fbc.setVisible(true); //display jframe2
 				menu.setVisible(false);
@@ -52,9 +60,33 @@ public class FlappyBirdApp extends JFrame {
 				backgroundCanvas.setVisible(true);
 			}
 		});
-		
+				
 		JButton highscore = new JButton("HIGHSCORE");
+		highscore.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		
+		//NACH DER IMPLEMENTATION VON OPTION ENTFERNEN:
+		window.difficulty[0] = 0.5; //röhrenabstand
+		window.difficulty[1] = 3; //röhrenspeed
+		window.difficulty[2] = 5; //birdspeed
+		
 		JButton options = new JButton ("OPTIONS");
+		options.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Schwierigkeitseinstellungen, JDialog?
+				//difficulty[] befüllen 
+				// 1. Platz im Array, häufigkeit der Rören
+				// 2. Platz im Array, geschwindigkeit der Rören
+				// 3. Platz im Array, geschwindigkeit der Röre (hierraus wird auch die gravitation berechnet)
+				
+			}
+		});
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		
@@ -71,6 +103,7 @@ public class FlappyBirdApp extends JFrame {
 		constraints.gridx = 10;
 		constraints.gridy = 0;
 		menu.add(options);
+	
 
 		window.add(menu);
 	
@@ -125,6 +158,13 @@ public class FlappyBirdApp extends JFrame {
 	public void setStatusTasten(Set<Integer> statusTasten) {
 		this.statusTasten = statusTasten;
 	}
-		
 
+	public double[] getDifficulty() {
+		return difficulty;
 	}
+		
+	public boolean isStarted () {
+		return started;
+	}
+
+}

@@ -38,17 +38,23 @@ public class FlappyBirdPresenter {
 		
 		/* 
 		 * eine nicht ver�nderbare Liste wird vom Background (Model) an den
-		 * FlappyBirdCanvas(View) �bergeben		
+		 * FlappyBirdCanvupdatePlayer();
+				background.generateTube(); 
+				background.moveAll();
+				canvas.repaint();as(View) �bergeben		
 		*/
 		canvas.setImageObjects(background.getGameObjects());
 		//GameObjects implementieren ImageObject daher m�glich
+		background.setDifficulty(window.getDifficulty());
 		
+		
+		background.generateBird();
 		timer = new Timer(frameTime, e-> {
-			if(FlappyBirdApp.started) {
-			updatePlayer();
-			background.generateTube(); 
-			background.moveAll();
-			canvas.repaint();
+			if(window.isStarted()) {
+				updatePlayer();
+				background.generateTube(); 
+				background.moveAll();
+				canvas.repaint();
 			}
 		});
 		
@@ -88,10 +94,5 @@ public class FlappyBirdPresenter {
 		statusTasten.remove(losgelasseneTaste);
 	}
 
-
-	private void addKeyListener(KeyAdapter keyAdapter) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

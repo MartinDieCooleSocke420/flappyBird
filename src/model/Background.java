@@ -2,9 +2,6 @@ package model;
 
 import java.util.List;
 import java.util.function.Predicate;
-
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -15,17 +12,12 @@ public class Background {
 	private List<GameObject> gameObjects = new ArrayList<>();
 
 	private Bird bird;
+
+	private double[] difficulty;
 	
 	public Background( double width, double height) {
 		this.width = width;
-		this.height = height;
-	
-		bird = (Bird) GameObjectFactory.createGameObject("Player1", 
-				GameObjectFactory.BIRD, 150, 200, this);
-		gameObjects.add(bird);
-		
-		//TODO: generateTube zum ersten mal ausführen hier um eine Start tube zu haben?
-		
+		this.height = height;	
 	}
 
 	public double getWidth() {
@@ -53,13 +45,13 @@ public class Background {
 	}
 	
 	public boolean removeGameObjects(String name) {
-		//TODO: implementieren erwähnt 02d_Java_Swing_OceanApp_Teil3 min 47
+		//TODO: implementieren erwï¿½hnt 02d_Java_Swing_OceanApp_Teil3 min 47
 		return true;
 	}
 	
 	public List<ImageObject> getGameObjects(){
 		return java.util.Collections.unmodifiableList(gameObjects);
-		//übergibt unveränderbare list damit der View beim zugriff nichts verändern kann
+		//ï¿½bergibt unverï¿½nderbare list damit der View beim zugriff nichts verï¿½ndern kann
 	}
 
 	public void moveAll() {
@@ -68,14 +60,14 @@ public class Background {
 		for (GameObject gameObject : gameObjects) {
 			gameObject.move();
 			
-			//kollisionsprüfung für den Vogel
+			//kollisionsprï¿½fung fï¿½r den Vogel
 			if (gameObject instanceof Bird) {	
 				for (GameObject gameObject1 : gameObjects) {
 					
-					//überprüfung ob ein Objekt mit Bird kollidiert
-					//ist auf einem Abstrakten level wie von herr Prieß in 03b_Teil4 gezeigt
-					//es würde hier reichen nur auf Tubes zu prüfen,
-					//durch spätere Features kann es jedoch pracktisch sein es so Abstrackt wie möglich zu implementieren
+					//ï¿½berprï¿½fung ob ein Objekt mit Bird kollidiert
+					//ist auf einem Abstrakten level wie von herr Prieï¿½ in 03b_Teil4 gezeigt
+					//es wï¿½rde hier reichen nur auf Tubes zu prï¿½fen,
+					//durch spï¿½tere Features kann es jedoch pracktisch sein es so Abstrackt wie mï¿½glich zu implementieren
 					if(!(gameObject1 instanceof Bird) && gameObject.intersect(gameObject1)) {
 						gameObject.dead = true;
 					}
@@ -84,7 +76,7 @@ public class Background {
 			
 			
 			//entfernen der Toten objekte, um einen concurrent error zu umgehen:
-			//Hier zuerst eine liste erstellen von den Objekten die später removed werden
+			//Hier zuerst eine liste erstellen von den Objekten die spï¿½ter removed werden
 			
 
 		}
@@ -100,7 +92,9 @@ public class Background {
 	public void generateTube() {
 		
 		
-		double abstand = 0.5; //nach wieviel prozent vom canvas eine neue röhre kommen soll
+		double abstand = difficulty[0]; //nach wieviel prozent vom canvas eine neue rï¿½hre kommen soll
+		double speed = difficulty[1];
+		
 		boolean toCreate = true;
 		
 		for (GameObject gameObject : gameObjects) {
@@ -108,7 +102,7 @@ public class Background {
 			//Wenn game Object eine Tube
 			if(gameObject.getClass() == Tube.class) {
 
-				//Die vorherigen tubes müssen beim abstand spawnen
+				//Die vorherigen tubes mï¿½ssen beim abstand spawnen
 				if(gameObject.getX() % (width * abstand) != 0) {
 					toCreate = false;
 				}
@@ -117,14 +111,14 @@ public class Background {
 		}
 		
 		
-		//gap ist hierbei nicht die Lücke sondern eher die höhenverschiebung um welche beide röhren auf y verschoben wird
-		//je größer der Multiplikator von random() ist desto größer sind die schwankungen
+		//gap ist hierbei nicht die Lï¿½cke sondern eher die hï¿½henverschiebung um welche beide rï¿½hren auf y verschoben wird
+		//je grï¿½ï¿½er der Multiplikator von random() ist desto grï¿½ï¿½er sind die schwankungen
 		double gap = Math.random()*350;
 		
 		if(toCreate) {
 			//TODO: Nicht TubeBot und TubeTop aufrufen!!
-			GameObject tubeBot = GameObjectFactory.createGameObject("tubeBot", GameObjectFactory.TUBEB, this.getWidth(), this.getHeight()-(400-gap), this);
-			GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1500-gap), this);
+			GameObject tubeBot = GameObjectFactory.createGameObject("tubeBot", GameObjectFactory.TUBEB, this.getWidth(), this.getHeight()-(400-gap), this, speed);
+			GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1500-gap), this, speed);
 			gameObjects.add(tubeBot);
 			gameObjects.add(tubeTop);
 			System.out.println("Tube Generated in Background");
@@ -133,9 +127,20 @@ public class Background {
 	}
 
 
-	//zum Überprüfen ob Objekt im 
+	//zum ï¿½berprï¿½fen ob Objekt im 
 	public boolean isObjectInBackground(double x, double y, double width, double height) {
 		return (x > 0 && x + width < this.width && y > 0 && y + height < this.height);
+	}
+
+	public void setDifficulty(double[] difficulty) {
+		this.difficulty = difficulty;
+		
+	}
+	
+	public void generateBird() {
+		bird = (Bird) GameObjectFactory.createGameObject("Player1", 
+				GameObjectFactory.BIRD, 150, 200, this, difficulty[2]);
+		gameObjects.add(bird);
 	}
 	
 }
