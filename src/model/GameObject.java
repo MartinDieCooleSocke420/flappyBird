@@ -7,7 +7,7 @@ public abstract class GameObject implements ImageObject{
 	private String name;
 	private Image image;
 	
-	//protected damit aus subklasse zugegriffen werden kann (keine getter/setter nötig)
+	//protected damit aus subklasse zugegriffen werden kann (keine getter/setter nï¿½tig)
 	protected double x, y, width, height;
 	protected Background background;
 	protected boolean dead;
@@ -26,8 +26,8 @@ public abstract class GameObject implements ImageObject{
 	
 	public boolean intersect(GameObject gameObject) {
 		
-		//der False-Fall wird geprüft also wenn die Objekte sich nicht überschneiden
-		//eine übersichtlichere Lösung wäre ein IF-Else, abgekürzt so darstellbar:
+		//der False-Fall wird geprï¿½ft also wenn die Objekte sich nicht ï¿½berschneiden
+		//eine ï¿½bersichtlichere Lï¿½sung wï¿½re ein IF-Else, abgekï¿½rzt so darstellbar:
 		return !(this.x + this.width < gameObject.x || this.y + this.height < gameObject.y
 				|| gameObject.x + gameObject.width < this.x || gameObject.y + gameObject.height < this.y);
 
@@ -61,6 +61,8 @@ public abstract class GameObject implements ImageObject{
 	}
 
 	public abstract void move();
+
+	protected abstract double getSpeed();
 
 
 

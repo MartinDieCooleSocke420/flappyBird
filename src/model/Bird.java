@@ -34,6 +34,10 @@ public class Bird extends GameObject {
 		distanceY = 0.0;
 		
 	}
+	
+	public double getSpeed() {
+		return speed;
+	}
 
 	
 }

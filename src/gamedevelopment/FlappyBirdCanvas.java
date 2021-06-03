@@ -22,12 +22,15 @@ public class FlappyBirdCanvas extends JPanel {
 	
 	public FlappyBirdCanvas() {
 
+
 		//Hintergrundbild laden
 		try {
 			backgroundImg = ImageIO.read(new File("img/background.png"));		
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 
 		
 	}
@@ -42,8 +45,10 @@ public class FlappyBirdCanvas extends JPanel {
 		
 		if(backgroundImg != null)
 			g.drawImage(backgroundImg, 0, 0, null);
+	
 		
-		
+//			g.drawString(Double.toString(highscore), 620, 20);
+				
 		//alle imageObjecte hinzuf�gen
 		for (ImageObject imageObject : imageObjects) {
 			g.drawImage(imageObject.getImage(), (int) imageObject.getX(), (int) imageObject.getY(), null);

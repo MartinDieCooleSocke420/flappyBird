@@ -45,7 +45,9 @@ public class FlappyBirdPresenter {
 		*/
 		canvas.setImageObjects(background.getGameObjects());
 		//GameObjects implementieren ImageObject daher m�glich
+		
 		background.setDifficulty(window.getDifficulty());
+
 		
 		
 		background.generateBird();
@@ -93,6 +95,5 @@ public class FlappyBirdPresenter {
 	public void removeStatusTasten(int losgelasseneTaste) {
 		statusTasten.remove(losgelasseneTaste);
 	}
-
 
 }

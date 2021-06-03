@@ -1,3 +1,1 @@
-Werden Bilder wie paintComponents behandelt
-Wie das menü verbauen
-Ist die implementierung von der röhren generation ordentlich?
+Ãœbergabe des Highscores an Presenter so in ordnung?

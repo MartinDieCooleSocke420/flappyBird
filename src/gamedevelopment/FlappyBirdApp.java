@@ -42,10 +42,11 @@ public class FlappyBirdApp extends JFrame {
 		window.setPresenter(presenter); //presenter wird JFrame zugewisen
 		window.setVisible(true); //JFrame wird sichtbar gemacht
 		backgroundCanvas.setVisible(false);
+
 		
 		menu = new JPanel(new GridBagLayout());
 		
-		menu.setBackground(Color.DARK_GRAY);
+		menu.setBackground(Color.LIGHT_GRAY);
 		menu.setVisible(true);
 				
 		JButton start = new JButton("START");

@@ -12,12 +12,13 @@ public class Background {
 	private List<GameObject> gameObjects = new ArrayList<>();
 
 	private Bird bird;
+	private HighscoreObject highscore = new HighscoreObject();
 
 	private double[] difficulty;
 	
 	public Background( double width, double height) {
 		this.width = width;
-		this.height = height;	
+		this.height = height;
 	}
 
 	public double getWidth() {
@@ -80,12 +81,12 @@ public class Background {
 			
 
 		}
-		
+//		
+//		if(highscore ) 
+//			highscore.checkHighscore(gameObjects);
 		
 		Predicate<GameObject> myPredicate = (GameObject o) -> (o.dead);
 		gameObjects.removeIf(myPredicate);
-
-		
 		
 	}
 

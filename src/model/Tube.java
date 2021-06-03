@@ -25,6 +25,8 @@ public class Tube extends GameObject {
 //		}
 	}
 
-
+	public double getSpeed() {
+		return speed;
+	}
 
 }
