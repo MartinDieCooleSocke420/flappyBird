@@ -14,22 +14,20 @@ public class Bird extends GameObject {
 	}
 	
 	public void setDistanceY(double frameTime) {
-		distanceY += speed * frameTime;
+		//berechnet aus der gravitation und frametime eine optimale Geschwindigkeit fr den player
+		distanceY += frameTime - speed - 1;
+
 		
-	}
-
-	public double getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(double speed) {
-		this.speed = speed;
 	}
 
 	@Override
 	public void move() {
-		y += distanceY;
+		if(!background.isObjectInBackground(x, y, width, height)) {
+			return;
+		}
 		
+		y += distanceY;
+		dead = false;		
 	}
 
 	public void ClearDistances() {

@@ -1,0 +1,3 @@
+Werden Bilder wie paintComponents behandelt
+Wie das menü verbauen
+Ist die implementierung von der röhren generation ordentlich?

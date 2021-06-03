@@ -1,73 +1,129 @@
 package gamedevelopment;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import jdk.nashorn.internal.ir.ReturnNode;
-
-public class FlappyBirdApp extends JFrame{
-
+public class FlappyBirdApp extends JFrame {
 	
-	private JFrame frame;
-	private JPanel panel;
+
+	private static final long serialVersionUID = 1L;
+//	private JPanel panel;
+	private static JPanel menu;
+	private boolean started = false;
+	private double difficulty[] =  new double[3]; 
 	
-	//Nach Architekturmuster Model-View-Presenter
-	private FlappyBirdCanvas backgroundCanvas; //Am ende der View
+	//Nach Architektur des Model-View-Presenter
+	private static FlappyBirdCanvas backgroundCanvas; //Am ende der View
 	private FlappyBirdPresenter presenter; //Am ende der Presenter
 	
-
-	//ein collection Set f�r die Steuerung
+	//ein collection Set f�r die Steuerung
 	private Set<Integer> statusTasten = new HashSet<Integer>();
-	
-	
+		
 	public static void main(String[] args) {
 		
 		FlappyBirdApp window = new FlappyBirdApp(); //erstellt JFrame
 		FlappyBirdPresenter presenter = new FlappyBirdPresenter(window); //setzt presenter
 		window.setPresenter(presenter); //presenter wird JFrame zugewisen
 		window.setVisible(true); //JFrame wird sichtbar gemacht
+		backgroundCanvas.setVisible(false);
 		
-		//TODO: try catch einbauen? wie im oceanapp git
-			
+		menu = new JPanel(new GridBagLayout());
+		
+		menu.setBackground(Color.DARK_GRAY);
+		menu.setVisible(true);
+				
+		JButton start = new JButton("START");
+		start.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				window.started = true;
+				FlappyBirdCanvas fbc = new FlappyBirdCanvas();
+				fbc.setVisible(true); //display jframe2
+				menu.setVisible(false);
+				
+				backgroundCanvas.setVisible(true);
+			}
+		});
+				
+		JButton highscore = new JButton("HIGHSCORE");
+		highscore.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		
+		//NACH DER IMPLEMENTATION VON OPTION ENTFERNEN:
+		window.difficulty[0] = 0.5; //röhrenabstand
+		window.difficulty[1] = 3; //röhrenspeed
+		window.difficulty[2] = 5; //birdspeed
+		
+		JButton options = new JButton ("OPTIONS");
+		options.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Schwierigkeitseinstellungen, JDialog?
+				//difficulty[] befüllen 
+				// 1. Platz im Array, häufigkeit der Rören
+				// 2. Platz im Array, geschwindigkeit der Rören
+				// 3. Platz im Array, geschwindigkeit der Röre (hierraus wird auch die gravitation berechnet)
+				
+			}
+		});
+		
+		GridBagConstraints constraints = new GridBagConstraints();
+		
+		constraints.insets = new Insets(10,10,10,10);
+		
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		menu.add(start);
+
+		constraints.gridx = 5;
+		constraints.gridy = 0;
+		menu.add(highscore);
+		
+		constraints.gridx = 10;
+		constraints.gridy = 0;
+		menu.add(options);
+	
+
+		window.add(menu);
+	
 	}
 
 	public FlappyBirdApp () {
 		initialize();
 	}
 	
-
-
-	/**
-	*	JFrame inizialisieren
-	*/
+	//	JFrame inizialisieren
+	
 	
 	private void initialize() {
 		
 		this.setBounds(0, 0, 1080, 720);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		
-		panel = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		
-		/**
-			Noch aus Pries beispiel, glaue nicht mehr n�tig?
-		flowLayout.setHgap(10);
-		flowLayout.setVgap(10);
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		flowLayout.setAlignOnBaseline(true);
-		this.add(panel, BorderLayout.NORTH);
-		**/
-		
+			
+		//TODO: hier startmen� punkt - als modal (muss bearbeitet werden) jDialog
 		backgroundCanvas = new FlappyBirdCanvas();
 		this.add(backgroundCanvas, BorderLayout.CENTER);
 		
@@ -103,6 +159,12 @@ public class FlappyBirdApp extends JFrame{
 		this.statusTasten = statusTasten;
 	}
 
-	
-}
+	public double[] getDifficulty() {
+		return difficulty;
+	}
+		
+	public boolean isStarted () {
+		return started;
+	}
 
+}
