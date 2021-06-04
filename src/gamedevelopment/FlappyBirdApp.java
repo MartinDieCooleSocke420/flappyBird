@@ -46,8 +46,13 @@ public class FlappyBirdApp extends JFrame {
 		
 		menu = new JPanel(new GridBagLayout());
 		
+<<<<<<< Updated upstream
 		menu.setBackground(Color.LIGHT_GRAY);
+=======
+//		menu.setBackground(Color.YELLOW);
+>>>>>>> Stashed changes
 		menu.setVisible(true);
+		
 				
 		JButton start = new JButton("START");
 		start.addActionListener(new ActionListener() {
