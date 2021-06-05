@@ -1,5 +1,3 @@
-package gamedevelopment;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -46,7 +44,10 @@ public class FlappyBirdApp extends JFrame {
 		menu = new JPanel(new GridBagLayout());
 		
 		menu.setBackground(Color.DARK_GRAY);
-		menu.setVisible(true);
+		menu.setVisible(false);
+		
+		backgroundCanvas.setVisible(true);
+		window.started = true;
 				
 		JButton start = new JButton("START");
 		start.addActionListener(new ActionListener() {

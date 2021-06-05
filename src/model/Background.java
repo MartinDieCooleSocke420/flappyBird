@@ -2,6 +2,16 @@ package model;
 
 import java.util.List;
 import java.util.function.Predicate;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JTextField;
+
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -12,6 +22,8 @@ public class Background {
 	private List<GameObject> gameObjects = new ArrayList<>();
 
 	private Bird bird;
+	
+	private JDialog endScreen = new JDialog();
 
 	private double[] difficulty;
 	
@@ -70,9 +82,48 @@ public class Background {
 					//durch sp�tere Features kann es jedoch pracktisch sein es so Abstrackt wie m�glich zu implementieren
 					if(!(gameObject1 instanceof Bird) && gameObject.intersect(gameObject1)) {
 						gameObject.dead = true;
+						
+					if(gameObject.dead = true) {
+						
+						JTextField playerName = new JTextField(10);
+						playerName.setText("Gib deinen Namen ein");
+						playerName.setForeground(Color.BLACK);
+						playerName.setBackground(Color.WHITE);
+
+						
+						JButton restart = new JButton("RESTART");
+						restart.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								endScreen.setVisible(false);
+								
+							}
+						});
+						
+						JButton end = new JButton("END GAME");
+						end.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+							System.exit(0);
+							}
+						});
+						
+						endScreen.add(playerName);
+						endScreen.add(restart);
+						endScreen.add(end);
+						endScreen.setSize(500, 500);
+						endScreen.setResizable(false);
+						endScreen.setLocationRelativeTo(null);
+						endScreen.setModal(true);
+						endScreen.setUndecorated(true);
+						endScreen.setLayout(new GridBagLayout());
+						endScreen.setVisible(true);		
+					
+					}
 					}
 				}
 			}
+			
 			
 			
 			//entfernen der Toten objekte, um einen concurrent error zu umgehen:
