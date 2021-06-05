@@ -46,8 +46,9 @@ public class FlappyBirdApp extends JFrame {
 		menu.setBackground(Color.DARK_GRAY);
 		menu.setVisible(false);
 		
-		backgroundCanvas.setVisible(true);
-		window.started = true;
+		// da Probleme beim starten menü geskipt, ENTFERNEN
+		// backgroundCanvas.setVisible(true);
+		// window.started = true;
 				
 		JButton start = new JButton("START");
 		start.addActionListener(new ActionListener() {
