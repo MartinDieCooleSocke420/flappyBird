@@ -43,12 +43,12 @@ public class FlappyBirdApp extends JFrame {
 		
 		menu = new JPanel(new GridBagLayout());
 		
-		menu.setBackground(Color.DARK_GRAY);
-		menu.setVisible(false);
+//		menu.setBackground(Color.GRAY);
+//		menu.setVisible(false);
 		
 		// da Probleme beim starten menü geskipt, ENTFERNEN
-		// backgroundCanvas.setVisible(true);
-		// window.started = true;
+//		 backgroundCanvas.setVisible(true);
+//		 window.started = true;
 				
 		JButton start = new JButton("START");
 		start.addActionListener(new ActionListener() {
@@ -58,7 +58,6 @@ public class FlappyBirdApp extends JFrame {
 				FlappyBirdCanvas fbc = new FlappyBirdCanvas();
 				fbc.setVisible(true); //display jframe2
 				menu.setVisible(false);
-				
 				backgroundCanvas.setVisible(true);
 			}
 		});
@@ -74,8 +73,10 @@ public class FlappyBirdApp extends JFrame {
 		
 		//NACH DER IMPLEMENTATION VON OPTION ENTFERNEN:
 		window.difficulty[0] = 0.5; //röhrenabstand
-		window.difficulty[1] = 3; //röhrenspeed
-		window.difficulty[2] = 5; //birdspeed
+		window.difficulty[1] = 9; //röhrenspeed
+		window.difficulty[2] = 2; //birdspeed
+		
+		presenter.syncDifficulty();
 		
 		JButton options = new JButton ("OPTIONS");
 		options.addActionListener(new ActionListener() {
@@ -86,6 +87,10 @@ public class FlappyBirdApp extends JFrame {
 				// 1. Platz im Array, häufigkeit der Rören
 				// 2. Platz im Array, geschwindigkeit der Rören
 				// 3. Platz im Array, geschwindigkeit der Röre (hierraus wird auch die gravitation berechnet)
+				
+				//EVTL MIT SCHIEBEREGLERN:
+				// https://stackoverflow.com/questions/9815506/add-components-to-jdialog
+				
 				
 			}
 		});

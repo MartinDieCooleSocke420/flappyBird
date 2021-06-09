@@ -33,7 +33,7 @@ public class FlappyBirdPresenter {
 		//Den Hintergrund festlegen
 		background = new Background(window.getWidth(),window.getHeight());
 		canvas.setPreferredSize(new Dimension(window.getWidth(), window.getHeight()));
-		window.setVisible(true);
+//		window.setVisible(true);
 		
 		
 		/* 
@@ -45,10 +45,10 @@ public class FlappyBirdPresenter {
 		*/
 		canvas.setImageObjects(background.getGameObjects());
 		//GameObjects implementieren ImageObject daher m�glich
-		background.setDifficulty(window.getDifficulty());
 		
+			background.generateBird();
+
 		
-		background.generateBird();
 		timer = new Timer(frameTime, e-> {
 			if(window.isStarted()) {
 				updatePlayer();
@@ -94,5 +94,8 @@ public class FlappyBirdPresenter {
 		statusTasten.remove(losgelasseneTaste);
 	}
 
+	public void syncDifficulty() {
+		background.setDifficulty(window.getDifficulty());
+	}
 
 }

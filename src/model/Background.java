@@ -3,13 +3,16 @@ package model;
 import java.util.List;
 import java.util.function.Predicate;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,12 +23,10 @@ public class Background {
 	private double width, height;
 	
 	private List<GameObject> gameObjects = new ArrayList<>();
-
 	private Bird bird;
-	
-	private JDialog endScreen = new JDialog();
-
 	private double[] difficulty;
+	private HighscoreObject highscore = new HighscoreObject();
+	
 	
 	public Background( double width, double height) {
 		this.width = width;
@@ -66,9 +67,7 @@ public class Background {
 		//ï¿½bergibt unverï¿½nderbare list damit der View beim zugriff nichts verï¿½ndern kann
 	}
 
-	public void moveAll() {
-		
-		
+	public void moveAll() {	
 		for (GameObject gameObject : gameObjects) {
 			gameObject.move();
 			
@@ -81,45 +80,8 @@ public class Background {
 					//es wï¿½rde hier reichen nur auf Tubes zu prï¿½fen,
 					//durch spï¿½tere Features kann es jedoch pracktisch sein es so Abstrackt wie mï¿½glich zu implementieren
 					if(!(gameObject1 instanceof Bird) && gameObject.intersect(gameObject1)) {
-						gameObject.dead = true;
-						
-					if(gameObject.dead = true) {
-						
-						JTextField playerName = new JTextField(10);
-						playerName.setText("Gib deinen Namen ein");
-						playerName.setForeground(Color.BLACK);
-						playerName.setBackground(Color.WHITE);
-
-						
-						JButton restart = new JButton("RESTART");
-						restart.addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								endScreen.setVisible(false);
-								
-							}
-						});
-						
-						JButton end = new JButton("END GAME");
-						end.addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-							System.exit(0);
-							}
-						});
-						
-						endScreen.add(playerName);
-						endScreen.add(restart);
-						endScreen.add(end);
-						endScreen.setSize(500, 500);
-						endScreen.setResizable(false);
-						endScreen.setLocationRelativeTo(null);
-						endScreen.setModal(true);
-						endScreen.setUndecorated(true);
-						endScreen.setLayout(new GridBagLayout());
-						endScreen.setVisible(true);		
-					
-					}
+						gameObject.dead = true;		
+						checkBirdDeath();
 					}
 				}
 			}
@@ -133,11 +95,68 @@ public class Background {
 		}
 		
 		
+		
 		Predicate<GameObject> myPredicate = (GameObject o) -> (o.dead);
 		gameObjects.removeIf(myPredicate);
 
+		highscore.checkHighscore(gameObjects);
 		
+	}
+	
+	
+	public void checkBirdDeath() {
+		if(bird.dead = true) {
+			
+			JDialog endScreen = new JDialog();
+			
+			
+			
+			JTextField playerName = new JTextField(10);
+			playerName.setText("Gib deinen Namen ein");
+			playerName.setForeground(Color.BLACK);
+			playerName.setBackground(Color.WHITE);
+			
+			endScreen.add(new JLabel("Röhren geschafft: " + highscore.getPasses()));
+			endScreen.add(new JLabel("Highscore: " + highscore.getHighscore()));
+			
+			JButton restart = new JButton("RESTART");
+			restart.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					highscore.setName(playerName.getText());
+					HighscoreObject.writeHighscore(highscore);
+					endScreen.setVisible(false);
+					
+				}
+			});
+			
+			JButton end = new JButton("END GAME");
+			end.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					highscore.setName(playerName.getText());
+					HighscoreObject.writeHighscore(highscore);
+					
+					System.out.println(HighscoreObject.highscores);
+					System.out.println(highscore);
+				System.exit(0);
+				}
+			});
+			
+			endScreen.add(playerName);
+			endScreen.add(restart);
+			endScreen.add(end);
+			endScreen.setSize(500, 500);
+			endScreen.setResizable(false);
+			endScreen.setLocationRelativeTo(null);
+			endScreen.setModal(true);
+			endScreen.setUndecorated(true);
+//			endScreen.setLayout(new BoxLayout(endScreen, BoxLayout.Y_AXIS));
+//			endScreen.setLayout(new GridLayout(3,1));
+			endScreen.setLayout(new GridBagLayout());
+			endScreen.setVisible(true);		
 		
+		}
 	}
 
 	public void generateTube() {
@@ -190,7 +209,8 @@ public class Background {
 	
 	public void generateBird() {
 		bird = (Bird) GameObjectFactory.createGameObject("Player1", 
-				GameObjectFactory.BIRD, 150, 200, this, difficulty[2]);
+//				GameObjectFactory.BIRD, 150, 200, this, difficulty[2]);
+				GameObjectFactory.BIRD, 150, 200, this, 2);
 		gameObjects.add(bird);
 	}
 	

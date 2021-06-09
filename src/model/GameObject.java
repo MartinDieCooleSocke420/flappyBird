@@ -35,7 +35,7 @@ public abstract class GameObject implements ImageObject{
 	
 	@Override
 	public double getX() {
-		return x;
+		return (int) x;
 	}
 
 	@Override
@@ -61,6 +61,8 @@ public abstract class GameObject implements ImageObject{
 	}
 
 	public abstract void move();
+
+	protected abstract double getSpeed();
 
 
 
