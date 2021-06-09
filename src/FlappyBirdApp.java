@@ -43,7 +43,7 @@ public class FlappyBirdApp extends JFrame {
 		
 		menu = new JPanel(new GridBagLayout());
 		
-//		menu.setBackground(Color.GRAY);
+		menu.setBackground(Color.DARK_GRAY);
 //		menu.setVisible(false);
 		
 		// da Probleme beim starten menü geskipt, ENTFERNEN
@@ -61,7 +61,9 @@ public class FlappyBirdApp extends JFrame {
 				backgroundCanvas.setVisible(true);
 			}
 		});
-				
+		
+		
+		//TODO: Highscore Object ausgeben als Tabelle?		
 		JButton highscore = new JButton("HIGHSCORE");
 		highscore.addActionListener(new ActionListener() {
 			@Override

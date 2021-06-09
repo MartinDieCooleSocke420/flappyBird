@@ -12,7 +12,7 @@ als Spieler den Vogel durch lücken zwischen zwei Hindernisse, welche von oben un
 Eine Spielrunde endet im falle das der Vogel mit einer Röhre Kollidiert.
 
 
-<img src"https://imgur.com/a/0trIsd7"
+<img src"https://i.imgur.com/cHUOfNm.png"
 	alt="Bild von FlappyBird"
 	style="float: left; margin-right 10px;" />
 

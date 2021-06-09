@@ -47,10 +47,8 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 			highscores = gson.fromJson(line, highscoreArrayListType);
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();		
 		}
 		System.out.println(highscores);
@@ -66,7 +64,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	public static void writeHighscore(HighscoreObject highscore) {
 		
 		highscores.add(highscore);
-		Collections.sort(highscores);
+		Collections.sort(highscores); //TODO: sortieren der liste
 
 		try (Writer writer = new FileWriter(savePath)) {
 			Gson gson = new GsonBuilder().create();
@@ -88,7 +86,9 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 						 * werden diese erst durch 5 geteilt und verglichen. Hierdurch entsteht eine
 						 * ungenauigkeit, diese ist aber verwerflich						 * 
 						 */						
-						if((int) gameObject.getX() / 5 == (int) gameObject1.getX() / 5) {
+						
+						//TODO: je nach tube speed funktioniert es nicht
+						if( (int) gameObject.getX() / 5 == (int) gameObject1.getX() / 5) {
 							passes = getPasses() + 1;
 							highscore += gameObject.getSpeed() * gameObject1.getSpeed();
 							System.out.println(gameObject.getSpeed());
@@ -100,6 +100,28 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 			}
 		}		
 	}
+	
+	public static HighscoreObject checkHighscorePlacement(HighscoreObject highscore) {
+		
+		int counter = 0;
+		
+		for (HighscoreObject highscoreObject : highscores) {
+			if (highscoreObject.getHighscore() > highscore.getHighscore())
+				return highscoreObject;
+			
+		}
+		
+		
+		//wenn der eintrag der letzte ist soll der highscore selber nochmal zurück gegeben werden
+		if(counter == highscores.size()) {
+			return highscore;
+		}
+		
+		//wenn fehler?
+		return null;
+	}
+	
+	
 	
 	public double getHighscore() {
 		return highscore;

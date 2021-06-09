@@ -77,8 +77,6 @@ public class FlappyBirdPresenter {
 			background.getBird().setDistanceY(-frameTime);
 		}
 		
-		//TODO Maussteuerung on linkslick 
-		
 		window.setStatusTasten(statusTasten); 
 		
 		//gravitation
