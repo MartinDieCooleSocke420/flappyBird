@@ -116,7 +116,7 @@ public class Background {
 			playerName.setForeground(Color.BLACK);
 			playerName.setBackground(Color.WHITE);
 			
-			endScreen.add(new JLabel("Röhren geschafft: " + highscore.getPasses()));
+			endScreen.add(new JLabel("Geschaffte Tubes: " + highscore.getPasses()));
 			endScreen.add(new JLabel("Highscore: " + highscore.getHighscore()));
 			
 			JButton restart = new JButton("RESTART");
