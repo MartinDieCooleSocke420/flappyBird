@@ -88,7 +88,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 						 */						
 						
 						//TODO: je nach tube speed funktioniert es nicht
-						if( (int) gameObject.getX() / 5 == (int) gameObject1.getX() / 5) {
+						if( (int) gameObject.getX() == (int) gameObject1.getX()) {
 							passes = getPasses() + 1;
 							highscore += gameObject.getSpeed() * gameObject1.getSpeed();
 							System.out.println(gameObject.getSpeed());
@@ -137,8 +137,31 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		this.pName = text;
 		
 	}
+	
+	public String getName() {
+		return pName;
+		
+	}	
+	
+	
+	//TODO: Muss noch getested werden, zuerst einlesen von JSONS 
+	//Wandelt die ArrayList<HighscoreObjects> in ein Array für die Textausgabe in einem JTable um und gibt dieses Array zurück
+	public String[][] getHighscoreArray() {
+	
+		String[][] data = null;
+		
+		int counter = 0;
+		for (HighscoreObject highscoreObject : highscores) {
+			data[counter][0] = highscoreObject.getName();
+			data[counter][1] = Double.toString(highscoreObject.getHighscore());
+			counter++;
+		}
+		return data;
+		
+	}
 
 
+	//TODO: Muss noch getested werden, zuerst einlesen von JSONS 
 	@Override
 	public int compareTo(HighscoreObject o) {
 		if (o.getHighscore() > this.highscore)
