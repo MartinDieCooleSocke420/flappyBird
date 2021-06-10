@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -108,16 +109,21 @@ public class Background {
 		if(bird.dead = true) {
 			
 			JDialog endScreen = new JDialog();
-			
-			
+			endScreen.setLayout(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
 			
 			JTextField playerName = new JTextField(10);
 			playerName.setText("Gib deinen Namen ein");
 			playerName.setForeground(Color.BLACK);
 			playerName.setBackground(Color.WHITE);
+				
+			gbc.gridx = 3;
+			gbc.gridy = 1;
+			endScreen.add(new JLabel("Geschaffte Tubes: " + highscore.getPasses()), gbc);
 			
-			endScreen.add(new JLabel("Geschaffte Tubes: " + highscore.getPasses()));
-			endScreen.add(new JLabel("Highscore: " + highscore.getHighscore()));
+			gbc.gridx = 3;
+			gbc.gridy = 0;
+			endScreen.add(new JLabel("Highscore: " + highscore.getHighscore()), gbc);
 			
 			JButton restart = new JButton("RESTART");
 			restart.addActionListener(new ActionListener() {
@@ -143,17 +149,23 @@ public class Background {
 				}
 			});
 			
-			endScreen.add(playerName);
-			endScreen.add(restart);
-			endScreen.add(end);
+			gbc.gridx = 3;
+			gbc.gridy = 2;
+			endScreen.add(playerName, gbc);
+			
+			gbc.gridx = 0;
+			gbc.gridy = 4;
+			endScreen.add(restart, gbc);
+			
+			gbc.gridx = 5;
+			gbc.gridy = 4;
+			endScreen.add(end, gbc);
+			
 			endScreen.setSize(500, 500);
 			endScreen.setResizable(false);
 			endScreen.setLocationRelativeTo(null);
 			endScreen.setModal(true);
 			endScreen.setUndecorated(true);
-//			endScreen.setLayout(new BoxLayout(endScreen, BoxLayout.Y_AXIS));
-//			endScreen.setLayout(new GridLayout(3,1));
-			endScreen.setLayout(new GridBagLayout());
 			endScreen.setVisible(true);		
 		
 		}
