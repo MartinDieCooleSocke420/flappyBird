@@ -69,39 +69,32 @@ public class Background {
 	}
 
 	public void moveAll() {	
-		
-		bird.dead = false;
 		for (GameObject gameObject : gameObjects) {
 			gameObject.move();
 			
-			//kollisionsprï¿½fung fï¿½r den Vogel
+			//kollisionspruefung fuer den Vogel
 			if (gameObject instanceof Bird) {	
 				for (GameObject gameObject1 : gameObjects) {
 					
 					//ï¿½berprï¿½fung ob ein Objekt mit Bird kollidiert
-					//ist auf einem Abstrakten level wie von herr Prieï¿½ in 03b_Teil4 gezeigt
-					//es wï¿½rde hier reichen nur auf Tubes zu prï¿½fen,
-					//durch spï¿½tere Features kann es jedoch pracktisch sein es so Abstrackt wie mï¿½glich zu implementieren
+					//ist auf einem Abstrakten level wie von herr Prieïss in 03b_Teil4 gezeigt
+					//es wuerde hier reichen nur auf Tubes zu pruefen,
+					//durch spaetere Features kann es jedoch pracktisch sein es so Abstrackt wie moeglich zu implementieren
 					if(!(gameObject1 instanceof Bird) && gameObject.intersect(gameObject1)) {
 						gameObject.dead = true;	
 						checkBirdDeath();
 					}
 				}
-			}
-						
-			//entfernen der Toten objekte, um einen concurrent error zu umgehen:
-			//Hier zuerst eine liste erstellen von den Objekten die spï¿½ter removed werden
-		
-			
+			}			
 		}
 		
 		
-		
+		//Entfernt die toten GameObjects, welche kollidiert sind aus der GameObject list
 		Predicate<GameObject> myPredicate = (GameObject o) -> (o.dead);
 		gameObjects.removeIf(myPredicate);
 
-		highscore.checkHighscore(gameObjects);
 		
+		highscore.checkHighscore(gameObjects);		
 	}
 	
 	

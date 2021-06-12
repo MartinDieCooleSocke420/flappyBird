@@ -71,7 +71,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	public static void writeHighscore(HighscoreObject highscore) {
 		
 		highscores.add(highscore);
-//		Collections.sort(highscores); //TODO: sortieren der liste
+//		Collections.sort(highscores); //TODO: sortieren der HighscoreListe
 
 		try (Writer writer = new FileWriter(savePath)) {
 			Gson gson = new GsonBuilder().create();
@@ -144,8 +144,6 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		
 	}	
 	
-	
-	//TODO: Muss noch getested werden, zuerst einlesen von JSONS 
 	//Wandelt die ArrayList<HighscoreObjects> in ein Array für die Textausgabe in einem JTable um und gibt dieses Array zurück
 	public String[][] getHighscoreArray() {
 		

@@ -23,6 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
 
+import model.HighscoreObject;
+
 public class FlappyBirdApp extends JFrame {
 	
 
@@ -69,7 +71,7 @@ public class FlappyBirdApp extends JFrame {
 		});
 		
 		
-		//TODO: Highscore Object ausgeben als Tabelle?		
+		//TODO: getHighscoreArray wirft error, in model/HighscoreObject mehr beschrieben		
 		JButton highscore = new JButton("HIGHSCORE");
 		highscore.addActionListener(new ActionListener() {
 			@Override
@@ -105,16 +107,7 @@ public class FlappyBirdApp extends JFrame {
 		JButton options = new JButton ("OPTIONS");
 		options.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO: Schwierigkeitseinstellungen, JDialog?
-				//difficulty[] befüllen 
-				// 1. Platz im Array, häufigkeit der Rören
-				// 2. Platz im Array, geschwindigkeit der Rören
-				// 3. Platz im Array, geschwindigkeit der Röre (hierraus wird auch die gravitation berechnet)
-				
-				//EVTL MIT SCHIEBEREGLERN:
-				// https://stackoverflow.com/questions/9815506/add-components-to-jdialog
-				
+			public void actionPerformed(ActionEvent e) {		
 			
 			  	JDialog difficultyDialog = new JDialog();
 				difficultyDialog.setSize(500, 500);
@@ -159,8 +152,17 @@ public class FlappyBirdApp extends JFrame {
 				window.difficulty[2] = birdSpeed.getValue(); //birdspeed		
 				
 				
-				System.out.println(birdSpeed.getValue());
+				//Speichern Button zum schliesen des JDialogs 
+				JButton speichern = new JButton("Speichern");
+				speichern.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						difficultyDialog.setVisible(false);
+						
+					}
+				});
 				
+				difficultyDialog.add(speichern);			
 				difficultyDialog.setModal(true);
 				difficultyDialog.setVisible(true);
 				
