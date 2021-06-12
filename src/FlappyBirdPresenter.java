@@ -3,12 +3,14 @@
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.Timer;
 
 import model.Background;
+import model.HighscoreObject;
 
 
 //PRESENTER
@@ -54,6 +56,7 @@ public class FlappyBirdPresenter {
 				updatePlayer();
 				background.generateTube(); 
 				background.moveAll();
+				canvas.setHighscore(background.getHighscore().getHighscore());
 				canvas.repaint();
 			}
 		});
@@ -94,6 +97,10 @@ public class FlappyBirdPresenter {
 
 	public void syncDifficulty() {
 		background.setDifficulty(window.getDifficulty());
+	}
+	
+	public String[][] getHighscoreArray() {
+		return background.getHighscore().getHighscoreArray();
 	}
 
 }

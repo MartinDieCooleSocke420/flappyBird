@@ -125,6 +125,12 @@ public class Background {
 			gbc.gridy = 0;
 			endScreen.add(new JLabel("Highscore: " + highscore.getHighscore()), gbc);
 			
+//			TODO: Highscore plazierung anzeigen lassen
+//			endScreen.add(new JLabel("HighscorePlatz: " + highscore.getHighscorePlacement()), gbc);
+			
+			
+			
+			
 			JButton restart = new JButton("RESTART");
 			restart.addActionListener(new ActionListener() {
 				@Override
@@ -203,7 +209,6 @@ public class Background {
 			GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1500-gap), this, speed);
 			gameObjects.add(tubeBot);
 			gameObjects.add(tubeTop);
-			System.out.println("Tube Generated in Background");
 		}
 		
 	}
@@ -224,6 +229,10 @@ public class Background {
 //				GameObjectFactory.BIRD, 150, 200, this, difficulty[2]);
 				GameObjectFactory.BIRD, 150, 200, this, 2);
 		gameObjects.add(bird);
+	}
+
+	public HighscoreObject getHighscore() {
+		return highscore;
 	}
 	
 }

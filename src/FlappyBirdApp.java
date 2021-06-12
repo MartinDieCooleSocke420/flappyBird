@@ -79,19 +79,18 @@ public class FlappyBirdApp extends JFrame {
 				highscoreDialog.setResizable(false);
 				highscoreDialog.setLocationRelativeTo(null);
 				
-				String[][] data = {
-						//TODO Highscore Liste übergeben und damit Tabelle füllen
-						
-				            { "Kundan Kumar Jha", "4031"},
-				            { "Anand Jha", "6014" }
-				        };
+				
+				
+				String[][] data = presenter.getHighscoreArray();
+				
+				
+				//columnNames hinzuf�gen
 		        String[] columnNames = {"Name", "Highscore"};
 
 				
 				JTable highscores = new JTable(data, columnNames);
 		        highscores.setBounds(30, 40, 200, 300);
 		        
-				;
 				highscoreDialog.add(highscores);
 				highscoreDialog.setModal(true);	
 				highscoreDialog.setVisible(true);
@@ -99,7 +98,6 @@ public class FlappyBirdApp extends JFrame {
 			}
 		});
 		
-		//NACH DER IMPLEMENTATION VON OPTION ENTFERNEN:
 		
 		
 		presenter.syncDifficulty();
@@ -152,11 +150,16 @@ public class FlappyBirdApp extends JFrame {
 				birdSpeed.setPaintTicks(true);
 				birdSpeed.setPaintLabels(true);
 				
-				//TODO richtiges Umwandeln der Sliderwerte (im Background?)
+				//TODO: richtiges Umwandeln der Sliderwerte (im Background?)
+				//TODO: .getValue gibt immer 50 aus, hier muss ein ?changelistener? eingef�gt werden
+				//https://docs.oracle.com/javase/tutorial/uiswing/components/slider.html
 				
 				window.difficulty[0] = tubeDistance.getValue(); //röhrenabstand
 				window.difficulty[1] = tubeSpeed.getValue(); //röhrenspeed
-				window.difficulty[2] = birdSpeed.getValue(); //birdspeed
+				window.difficulty[2] = birdSpeed.getValue(); //birdspeed		
+				
+				
+				System.out.println(birdSpeed.getValue());
 				
 				difficultyDialog.setModal(true);
 				difficultyDialog.setVisible(true);
