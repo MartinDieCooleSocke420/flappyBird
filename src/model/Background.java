@@ -69,6 +69,8 @@ public class Background {
 	}
 
 	public void moveAll() {	
+		
+		bird.dead = false;
 		for (GameObject gameObject : gameObjects) {
 			gameObject.move();
 			
@@ -81,18 +83,16 @@ public class Background {
 					//es w�rde hier reichen nur auf Tubes zu pr�fen,
 					//durch sp�tere Features kann es jedoch pracktisch sein es so Abstrackt wie m�glich zu implementieren
 					if(!(gameObject1 instanceof Bird) && gameObject.intersect(gameObject1)) {
-						gameObject.dead = true;		
+						gameObject.dead = true;	
 						checkBirdDeath();
 					}
 				}
 			}
-			
-			
-			
+						
 			//entfernen der Toten objekte, um einen concurrent error zu umgehen:
 			//Hier zuerst eine liste erstellen von den Objekten die sp�ter removed werden
+		
 			
-
 		}
 		
 		

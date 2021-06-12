@@ -47,6 +47,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 			while((line = fr.readLine()) != null)
 				sb.append(line);
 			Gson gson = new Gson();
+			
 			parsedArrayList = gson.fromJson(sb.toString(), highscores.getClass());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
