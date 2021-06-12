@@ -6,14 +6,19 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.lang.reflect.Type;
+import java.net.NoRouteToHostException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,7 +32,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	private double highscore = 0;
 	
 	static ArrayList<HighscoreObject> highscores = new ArrayList<>();
-	static String savePath = "highscores.json"; 
+	private static final String savePath = "highscores.json"; 
 	
 	public HighscoreObject () {
 		readHighscores();
@@ -79,6 +84,9 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		ClientSendToServer t1 = new ClientSendToServer("Verbindung 1");
+		t1.start();
 		
 	}
 
@@ -184,4 +192,40 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 			return 1;
 		return 0;
 	}
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(highscore);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((pName == null) ? 0 : pName.hashCode());
+		result = prime * result + passes;
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HighscoreObject other = (HighscoreObject) obj;
+		if (Double.doubleToLongBits(highscore) != Double.doubleToLongBits(other.highscore))
+			return false;
+		if (pName == null) {
+			if (other.pName != null)
+				return false;
+		} else if (!pName.equals(other.pName))
+			return false;
+		if (passes != other.passes)
+			return false;
+		return true;
+	}
+	
 }
