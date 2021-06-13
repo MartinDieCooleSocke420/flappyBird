@@ -27,7 +27,7 @@ Hierbei haben drei größen in die Schwierigkeitseinstellung einfluss.
 
 Pro durchflogene Röhre wird der Highscore um die gewählten schwierigkeitswerte erhöht
 
-![Bild der Einstellungen](img/readmeImg/Einstellungen.png)
+![Bild der Einstellungen](img/readmeImg/Einstellungen.PNG)
 
 
 
@@ -37,11 +37,11 @@ Das Speichern und Laden der Highscores geschieht im Hintergrund, so wird beim st
 die bisherigen Highscores geladen. Diese kann man sich Anschließend im Startmenü anschauen. Zudem wird nach beenden eines Spieldurchlaufes die eigene Plazierung 
 unter allen bisherigen Highscores angezeigt.
 
-##Bewegung
+## Bewegung
 Nach dem Starte des Spiels ist es möglich, mithilfe der Leertaste sowie der "PfeilTaste nach oben" den Vogel auf der Y-Achse zu bewegen
  und diesen durch die einzelnen hindernisse zu manövrieren. Eine Bewegung auf der X-Achse ist hierbei nicht möglich und findet auch nicht statt.
 
 
-##Client-Server-Modell
+## Client-Server-Modell
 Nach beenden eines Spieldurchlaufes werden alle Highscores an einen Server gesendet. Dieser überprüft ob die gesendeten Highscores bereits in der highscoreliste des Servers
 gespeichert sind, und speichert diese anschließend ab.
