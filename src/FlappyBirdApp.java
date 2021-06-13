@@ -187,7 +187,6 @@ public class FlappyBirdApp extends JFrame {
 	
 
 		window.add(menu);
-	
 	}
 
 	public FlappyBirdApp () {
