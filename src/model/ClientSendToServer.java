@@ -33,7 +33,7 @@ public class ClientSendToServer extends Thread {
 			PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true); // Outputstream zum Server
 
 			
-			socketOut.println(gson.toJson(HighscoreObject.highscores));
+			socketOut.println(gson.toJson("TODO:"));
 
 			String text = socketIn.readLine(); // Zeile vom Server empfangen
 

@@ -31,18 +31,17 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	private int passes = 0;
 	private double highscore = 0;
 	
-	static ArrayList<HighscoreObject> highscores = new ArrayList<>();
+	public static HighscoreList highscoreList = null;
 	private static final String savePath = "highscores.json"; 
 	
 	public HighscoreObject () {
-		readHighscores();
+//		readHighscores();
 	}
 
 	
 	private static void readHighscores() {
 		
-		ArrayList<HighscoreObject> parsedArrayList = new ArrayList<>();
-		
+		HighscoreList hs = null;
 		try (BufferedReader fr = new BufferedReader(new FileReader(HighscoreObject.savePath))) {
 			
 		
@@ -53,7 +52,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 				sb.append(line);
 			Gson gson = new Gson();
 			
-			parsedArrayList = gson.fromJson(sb.toString(), highscores.getClass());
+			hs = gson.fromJson(sb.toString(), HighscoreList.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -61,9 +60,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		}
 	
 		
-		highscores = parsedArrayList;
-		System.out.println(highscores);
-		
+		highscoreList = hs;		
 	}
 
 
@@ -75,12 +72,12 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 
 	public static void writeHighscore(HighscoreObject highscore) {
 		
-		highscores.add(highscore);
+		highscoreList.getHighscores().add(highscore);
 //		Collections.sort(highscores); //TODO: sortieren der HighscoreListe
 
 		try (Writer writer = new FileWriter(savePath)) {
 			Gson gson = new GsonBuilder().create();
-			gson.toJson(highscores, writer);
+			gson.toJson(highscoreList, writer);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -114,7 +111,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		}		
 	}
 	
-	
+	/*
 	//TODO: Muss noch getestet werden
 	public int getHighscorePlacement() {
 		
@@ -129,7 +126,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		return counter;
 
 	}
-	
+	*/
 	
 	
 	public double getHighscore() {
@@ -151,7 +148,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		return pName;
 		
 	}	
-	
+	/*
 	//Wandelt die ArrayList<HighscoreObjects> in ein Array für die Textausgabe in einem JTable um und gibt dieses Array zurück
 	public String[][] getHighscoreArray() {
 		
@@ -170,7 +167,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 			counter++;
 		}
 		
-		*/
+	
 		
 		String[][] testData = {			
 	            { "Gib deinen Namen ein", "18.0"},
@@ -183,7 +180,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		return testData;
 		
 	}
-
+	*/
 
 	//TODO: Muss noch getested werden, zuerst einlesen von JSONS 
 	@Override

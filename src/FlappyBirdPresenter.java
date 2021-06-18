@@ -98,9 +98,4 @@ public class FlappyBirdPresenter {
 	public void syncDifficulty() {
 		background.setDifficulty(window.getDifficulty());
 	}
-	
-	public String[][] getHighscoreArray() {
-		return background.getHighscore().getHighscoreArray();
-	}
-
 }

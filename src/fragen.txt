@@ -1,3 +1,7 @@
 Ist die implementierung von der röhren generation ordentlich?
-Übergabe des Highscore an Canvas ordentlich?
-Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException: class com.google.gson.internal.LinkedTreeMap beim Laden des Highscores
+Restart Button nach dem Spiel
+Einlesen von HighscoreList
+
+
+Menü Background: Image Importieren
+https://stackoverflow.com/questions/17330908/how-to-put-a-background-image-on-gridbaglayout

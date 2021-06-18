@@ -1,19 +1,24 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -22,8 +27,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import model.HighscoreList;
 import model.HighscoreObject;
+import model.ImageObject;
 
 public class FlappyBirdApp extends JFrame {
 	
@@ -43,15 +52,18 @@ public class FlappyBirdApp extends JFrame {
 		
 	public static void main(String[] args) {
 		
-		FlappyBirdApp window = new FlappyBirdApp(); //erstellt JFrame
+		FlappyBirdApp window = new FlappyBirdApp("FlappyBird by Marvin und Martin"); //erstellt JFrame
 		FlappyBirdPresenter presenter = new FlappyBirdPresenter(window); //setzt presenter
 		window.setPresenter(presenter); //presenter wird JFrame zugewisen
 		window.setVisible(true); //JFrame wird sichtbar gemacht
 		backgroundCanvas.setVisible(false);
 		
 		menu = new JPanel(new GridBagLayout());
-		
+
 		menu.setBackground(Color.DARK_GRAY);
+		
+	
+		
 //		menu.setVisible(false);
 		
 		// da Probleme beim starten menü geskipt, ENTFERNEN
@@ -77,20 +89,21 @@ public class FlappyBirdApp extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JDialog highscoreDialog = new JDialog();
+				highscoreDialog.setTitle("HIGHSCORE");
 				highscoreDialog.setSize(500, 500);
 				highscoreDialog.setResizable(false);
 				highscoreDialog.setLocationRelativeTo(null);
 				
 				
 				
-				String[][] data = presenter.getHighscoreArray();
+//				String[][] data = presenter.getHighscoreArray();
 				
 				
 				//columnNames hinzuf�gen
 		        String[] columnNames = {"Name", "Highscore"};
 
 				
-				JTable highscores = new JTable(data, columnNames);
+				JTable highscores = new JTable(HighscoreObject.highscoreList);
 		        highscores.setBounds(30, 40, 200, 300);
 		        
 				highscoreDialog.add(highscores);
@@ -101,6 +114,10 @@ public class FlappyBirdApp extends JFrame {
 		});
 		
 		
+		window.difficulty[0] = 10; //röhrenabstand
+		window.difficulty[1] = 10; //röhrenspeed
+		window.difficulty[2] = 20; //birdspeed	
+		
 		
 		presenter.syncDifficulty();
 		
@@ -110,6 +127,7 @@ public class FlappyBirdApp extends JFrame {
 			public void actionPerformed(ActionEvent e) {		
 			
 			  	JDialog difficultyDialog = new JDialog();
+			  	difficultyDialog.setTitle("OPTIONS");
 				difficultyDialog.setSize(500, 500);
 				difficultyDialog.setResizable(false);
 				difficultyDialog.setLocationRelativeTo(null);
@@ -124,6 +142,15 @@ public class FlappyBirdApp extends JFrame {
 				tubeDistance.setMajorTickSpacing(25);
 				tubeDistance.setPaintTicks(true);
 				tubeDistance.setPaintLabels(true);
+				tubeDistance.setValue((int) window.difficulty[0]);
+				tubeDistance.addChangeListener(new ChangeListener() {
+					@Override
+					public void stateChanged(ChangeEvent e) {
+						window.difficulty[0] = tubeDistance.getValue();						
+					}
+				});
+				
+				
 				
 				JLabel tubeSpeedLbl = new JLabel("Tube Speed");
 				JSlider tubeSpeed = new JSlider();
@@ -133,6 +160,13 @@ public class FlappyBirdApp extends JFrame {
 				tubeSpeed.setMajorTickSpacing(25);
 				tubeSpeed.setPaintTicks(true);
 				tubeSpeed.setPaintLabels(true);
+				tubeSpeed.setValue((int) window.difficulty[1]);
+				tubeSpeed.addChangeListener(new ChangeListener() {
+					@Override
+					public void stateChanged(ChangeEvent e) {
+						window.difficulty[1] = tubeSpeed.getValue();						
+					}
+				});
 				
 				JLabel birdSpeedLbl = new JLabel("Bird Speed");
 				JSlider birdSpeed = new JSlider();
@@ -142,14 +176,21 @@ public class FlappyBirdApp extends JFrame {
 				birdSpeed.setMajorTickSpacing(25);
 				birdSpeed.setPaintTicks(true);
 				birdSpeed.setPaintLabels(true);
+				birdSpeed.setValue((int) window.difficulty[2]);
+				birdSpeed.addChangeListener(new ChangeListener() {
+					@Override
+					public void stateChanged(ChangeEvent e) {
+						window.difficulty[2] = birdSpeed.getValue();						
+					}
+				});
 				
 				//TODO: richtiges Umwandeln der Sliderwerte (im Background?)
 				//TODO: .getValue gibt immer 50 aus, hier muss ein ?changelistener? eingef�gt werden
 				//https://docs.oracle.com/javase/tutorial/uiswing/components/slider.html
+							
 				
-				window.difficulty[0] = tubeDistance.getValue(); //röhrenabstand
-				window.difficulty[1] = tubeSpeed.getValue(); //röhrenspeed
-				window.difficulty[2] = birdSpeed.getValue(); //birdspeed		
+				
+	
 				
 				
 				//Speichern Button zum schliesen des JDialogs 
@@ -189,7 +230,8 @@ public class FlappyBirdApp extends JFrame {
 		window.add(menu);
 	}
 
-	public FlappyBirdApp () {
+	public FlappyBirdApp (String name) {
+		super(name);
 		initialize();
 	}
 	

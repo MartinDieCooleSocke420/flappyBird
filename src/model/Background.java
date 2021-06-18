@@ -11,11 +11,14 @@ import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -105,17 +108,28 @@ public class Background {
 			endScreen.setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
 			
+			gbc.gridy = 0;
+			gbc.gridx = 2;
+			
+			JLabel gameOver = new JLabel("GameOver");
+			gameOver.setFont(new Font("Serif",Font.BOLD,30));
+			gameOver.setForeground(Color.RED);
+//			endScreen.add(new JLabel("GAME OVER!!!!!"),gbc);
+			endScreen.add(gameOver,gbc);
+			
 			JTextField playerName = new JTextField(10);
-			playerName.setText("Gib deinen Namen ein");
 			playerName.setForeground(Color.BLACK);
 			playerName.setBackground(Color.WHITE);
-				
+
+			gbc.gridy = 3;
+			endScreen.add(new JLabel("Namen eingeben: "), gbc);
+
 			gbc.gridx = 3;
-			gbc.gridy = 1;
+			gbc.gridy = 2;
 			endScreen.add(new JLabel("Geschaffte Tubes: " + highscore.getPasses()), gbc);
 			
 			gbc.gridx = 3;
-			gbc.gridy = 0;
+			gbc.gridy = 1;
 			endScreen.add(new JLabel("Highscore: " + highscore.getHighscore()), gbc);
 			
 //			TODO: Highscore plazierung anzeigen lassen
@@ -142,22 +156,22 @@ public class Background {
 					highscore.setName(playerName.getText());
 					HighscoreObject.writeHighscore(highscore);
 					
-					System.out.println(HighscoreObject.highscores);
+//					System.out.println(HighscoreList.highscores);
 					System.out.println(highscore);
 				System.exit(0);
 				}
 			});
 			
 			gbc.gridx = 3;
-			gbc.gridy = 2;
+			gbc.gridy = 3;
 			endScreen.add(playerName, gbc);
 			
 			gbc.gridx = 0;
-			gbc.gridy = 4;
+			gbc.gridy = 5;
 			endScreen.add(restart, gbc);
 			
 			gbc.gridx = 5;
-			gbc.gridy = 4;
+			gbc.gridy = 5;
 			endScreen.add(end, gbc);
 			
 			endScreen.setSize(500, 500);
@@ -173,10 +187,11 @@ public class Background {
 	public void generateTube() {
 		
 		
-		double abstand = difficulty[0]; //nach wieviel prozent vom canvas eine neue r�hre kommen soll
+		double abstand = difficulty[0] * 100; //nach wieviel prozent vom canvas eine neue r�hre kommen soll
 		double speed = difficulty[1];
 		
 		boolean toCreate = true;
+		
 		
 		for (GameObject gameObject : gameObjects) {
 			
@@ -184,7 +199,7 @@ public class Background {
 			if(gameObject.getClass() == Tube.class) {
 
 				//Die vorherigen tubes m�ssen beim abstand spawnen
-				if(gameObject.getX() % (width * abstand) != 0) {
+				if(width - gameObject.getX() < abstand) {
 					toCreate = false;
 				}
 				
