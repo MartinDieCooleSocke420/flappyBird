@@ -63,6 +63,8 @@ public class FlappyBirdApp extends JFrame {
 		menu.setBackground(Color.DARK_GRAY);
 		window.add(menu);
 	
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.insets = new Insets(10,10,10,10);
 		
 //		menu.setVisible(false);
 		
@@ -81,6 +83,10 @@ public class FlappyBirdApp extends JFrame {
 				backgroundCanvas.setVisible(true);
 			}
 		});
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		menu.add(start);
+
 		
 		
 		//TODO: getHighscoreArray wirft error, in model/HighscoreObject mehr beschrieben		
@@ -117,6 +123,9 @@ public class FlappyBirdApp extends JFrame {
 
 			}
 		});
+		constraints.gridx = 5;
+		constraints.gridy = 0;
+		menu.add(highscore);
 		
 		
 		window.difficulty[0] = 10; //röhrenabstand
@@ -216,22 +225,9 @@ public class FlappyBirdApp extends JFrame {
 				
 			}
 		});
-		
-		GridBagConstraints constraints = new GridBagConstraints();
-		
-		constraints.insets = new Insets(10,10,10,10);
-		
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		menu.add(start);
-
-		constraints.gridx = 5;
-		constraints.gridy = 0;
-		menu.add(highscore);
-		
 		constraints.gridx = 10;
 		constraints.gridy = 0;
-		menu.add(options);
+		menu.add(options);		
 	
 
 		

@@ -54,6 +54,12 @@ public class FlappyBirdPresenter {
 		 * 
 		 */
 		
+		createNewGame();
+		
+		
+		}
+
+	private void createNewGame() {
 		//Das Spielfeld festlegen (MODEL)
 		background = new Background(window.getWidth(),window.getHeight());
 		canvas.setPreferredSize(new Dimension(window.getWidth(), window.getHeight()));
@@ -96,10 +102,7 @@ public class FlappyBirdPresenter {
 		});
 		
 			timer.start();		
-		
-		
-		}
-
+	}
 
 	private void updatePlayer() {
 		
@@ -165,6 +168,7 @@ public class FlappyBirdPresenter {
 			public void actionPerformed(ActionEvent e) {
 				background.setHighscoreName(playerName.getText());
 				HighscoreObject.writeHighscore(background.getHighscore());
+				createNewGame();
 				endScreen.setVisible(false);
 					
 				}

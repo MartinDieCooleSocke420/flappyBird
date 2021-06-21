@@ -23,7 +23,6 @@ public class Bird extends GameObject {
 	public void move() {
 		if(!background.isObjectInBackground(x, y, width, height)) {
 			dead = true;
-			background.checkBirdDeath();
 			return;
 		}
 		
