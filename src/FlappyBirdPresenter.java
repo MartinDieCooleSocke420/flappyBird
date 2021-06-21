@@ -7,9 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,58 +36,33 @@ public class FlappyBirdPresenter {
 	private Set<Integer> statusTasten = new HashSet<Integer>();
 	
 	
-	public FlappyBirdPresenter(FlappyBirdApp window) {
-	
-		
+	public FlappyBirdPresenter(FlappyBirdApp window) {		
 		this.window = window;
-		canvas = window.getFlappyBirdCanvas();
-	
-		/*
-		 * TODO:
-		 * 	Auslagern in eine eigene methode:
-		 * evtl. neuanlegen oder weiterbenutzen
-		 * 
-		 * mit background.reset
-		 * wenn background == null neuen erstellen
-		 * 
-		 */
-		
+		canvas = window.getFlappyBirdCanvas();		
 		createNewGame();
-		
 		
 		}
 
 	private void createNewGame() {
 		//Das Spielfeld festlegen (MODEL)
-		background = new Background(window.getWidth(),window.getHeight());
-		canvas.setPreferredSize(new Dimension(window.getWidth(), window.getHeight()));
-//		window.setVisible(true);
+		if(background == null) {
+			background = new Background(window.getWidth(),window.getHeight());
+			canvas.setPreferredSize(new Dimension(window.getWidth(), window.getHeight()));
+			canvas.setImageObjects(background.getGameObjects()); //übergibt nicht veraenderbare Liste
+			syncDifficulty();
+		}
+		else //Wenn Spielfeld bereits besteht, nicht neu erstellen, sondern reset
+			background.reset();
 		
 		
-		/* 
-		 * eine nicht verï¿½nderbare Liste wird vom Background (Model) an den
-		 * FlappyBirdCanvupdatePlayer();
-				background.generateTube(); 
-				background.moveAll();
-				canvas.repaint();as(View) ï¿½bergeben		
-		*/
-		canvas.setImageObjects(background.getGameObjects());
-		//GameObjects implementieren ImageObject daher mï¿½glich
-		
-		syncDifficulty();
+		//SpielerFigur einmalig Erstellen
 		background.generateBird();
 
-		/*
-		 * if (timer != null timer.stop)
-		 * 
-		 */
 		timer = new Timer(frameTime, e-> {
 			if(window.isStarted()) {
 				updatePlayer();
 				background.generateTube(); 
-				background.moveAll();
-				
-				//background bird.isdead -> timer.stop -> showendscren()
+				background.moveAll();			
 				canvas.setHighscore(background.getHighscore().getHighscoreValue());
 				
 				if(background.isBirdDead()) {
@@ -106,8 +79,7 @@ public class FlappyBirdPresenter {
 
 	private void updatePlayer() {
 		
-		//background.getPlayer().ClearDistances(); ? OceanPresenter Z. 64 von prieï¿½
-	
+		//Da immer auf der Y-Achse addiert wird ist ein Clear nötig, ansonsten unspielbar
 		background.getBird().ClearDistances();
 		
 		if(statusTasten.contains(KeyEvent.VK_W) || //fï¿½r WASD

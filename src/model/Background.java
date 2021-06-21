@@ -164,5 +164,11 @@ public class Background {
 	public void setHighscoreName(String text) {
 		highscore.setName(text);
 	}
+
+	public void reset() {
+		gameObjects.removeAll(gameObjects);
+		highscore = new HighscoreObject();
+		bird = null;
+	}
 	
 }
