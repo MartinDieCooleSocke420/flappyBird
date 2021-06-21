@@ -35,16 +35,16 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	private static final String savePath = "highscores.json"; 
 	
 	public HighscoreObject () {
-//		readHighscores();
+//		highscoreList = readHighscores();
 	}
 
-	
-	private static void readHighscores() {
+	/*
+	public static HighscoreList readHighscores() {
 		
-		HighscoreList hs = null;
+		HighscoreList hl = null;
 		try (BufferedReader fr = new BufferedReader(new FileReader(HighscoreObject.savePath))) {
 			
-		
+			
 			
 			StringBuilder sb = new StringBuilder();
 			String line;
@@ -52,18 +52,44 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 				sb.append(line);
 			Gson gson = new Gson();
 			
-			hs = gson.fromJson(sb.toString(), HighscoreList.class);
+			hl = gson.fromJson(sb.toString(), HighscoreList.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();		
 		}
 	
+		if(hl != null) {
+			return hl;	
+		}
 		
-		highscoreList = hs;		
+		return hl = new HighscoreList();	
+	}
+	*/
+
+	public static HighscoreList readHighscores() {
+		
+		HighscoreList hl = null;
+		
+		try {
+			String highscoreListAsJson = new String(Files.readAllBytes(Paths.get(savePath)));
+			
+			Gson gson = new Gson();
+			hl = gson.fromJson(highscoreListAsJson, HighscoreList.class);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException  e) {
+			e.printStackTrace();
+		}
+		
+		if(hl != null) 
+			return hl;	
+
+		return hl = new HighscoreList();	
 	}
 
 
+	
 	@Override
 	public String toString() {
 		return "HighscoreObject [pName=" + pName + ", passes=" + passes + ", highscore=" + highscore + "]";
@@ -72,12 +98,23 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 
 	public static void writeHighscore(HighscoreObject highscore) {
 		
+		if(highscoreList == null) {
+			HighscoreObject.readHighscores();
+		}
+
+		if(highscoreList == null)
+			highscoreList = new HighscoreList();
+		
+		//TODO: Versuchen vom server zu holen
+		
+		
 		highscoreList.getHighscores().add(highscore);
 //		Collections.sort(highscores); //TODO: sortieren der HighscoreListe
 
 		try (Writer writer = new FileWriter(savePath)) {
 			Gson gson = new GsonBuilder().create();
-			gson.toJson(highscoreList, writer);
+			String highscoreListAsJson = gson.toJson(highscoreList);
+			writer.write(highscoreListAsJson);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -129,7 +166,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	*/
 	
 	
-	public double getHighscore() {
+	public double getHighscoreValue() {
 		return highscore;
 	}
 
@@ -185,7 +222,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	//TODO: Muss noch getested werden, zuerst einlesen von JSONS 
 	@Override
 	public int compareTo(HighscoreObject o) {
-		if (o.getHighscore() > this.highscore)
+		if (o.getHighscoreValue() > this.highscore)
 			return 1;
 		return 0;
 	}

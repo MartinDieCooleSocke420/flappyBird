@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-public class HighscoreList extends AbstractTableModel{
+public class HighscoreList {
+	
+	
+	//ohne AbstractTableModel
 
-	private ArrayList<HighscoreObject> highscores = new ArrayList<>();
+	public ArrayList<HighscoreObject> highscores = new ArrayList<>();
 	
 	public ArrayList<HighscoreObject> getHighscores() {
 		return highscores;
@@ -16,6 +19,7 @@ public class HighscoreList extends AbstractTableModel{
 		this.highscores = highscores;
 	}
 
+	/*
 	@Override
 	public int getRowCount() {
 		return highscores.size();
@@ -34,7 +38,7 @@ public class HighscoreList extends AbstractTableModel{
 		 *  https://www.java-forum.org/thema/eigenes-tablemodel-fuer-arraylist-string.162335/post-1030956
 		 * 
 		 * 
-		 */
+		 
 		
 		HighscoreObject value = highscores.get(rowIndex);		
 		if(value != null) {
@@ -48,5 +52,7 @@ public class HighscoreList extends AbstractTableModel{
 		
 		return null;
 	}
+
+*/
 
 }

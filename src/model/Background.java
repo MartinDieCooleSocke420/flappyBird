@@ -85,7 +85,6 @@ public class Background {
 					//durch spaetere Features kann es jedoch pracktisch sein es so Abstrackt wie moeglich zu implementieren
 					if(!(gameObject1 instanceof Bird) && gameObject.intersect(gameObject1)) {
 						gameObject.dead = true;	
-						checkBirdDeath();
 					}
 				}
 			}			
@@ -100,90 +99,6 @@ public class Background {
 		highscore.checkHighscore(gameObjects);		
 	}
 	
-	
-	public void checkBirdDeath() {
-		if(bird.dead = true) {
-			
-			JDialog endScreen = new JDialog();
-			endScreen.setLayout(new GridBagLayout());
-			GridBagConstraints gbc = new GridBagConstraints();
-			
-			gbc.gridy = 0;
-			gbc.gridx = 2;
-			
-			JLabel gameOver = new JLabel("GameOver");
-			gameOver.setFont(new Font("Serif",Font.BOLD,30));
-			gameOver.setForeground(Color.RED);
-//			endScreen.add(new JLabel("GAME OVER!!!!!"),gbc);
-			endScreen.add(gameOver,gbc);
-			
-			JTextField playerName = new JTextField(10);
-			playerName.setForeground(Color.BLACK);
-			playerName.setBackground(Color.WHITE);
-
-			gbc.gridy = 3;
-			endScreen.add(new JLabel("Namen eingeben: "), gbc);
-
-			gbc.gridx = 3;
-			gbc.gridy = 2;
-			endScreen.add(new JLabel("Geschaffte Tubes: " + highscore.getPasses()), gbc);
-			
-			gbc.gridx = 3;
-			gbc.gridy = 1;
-			endScreen.add(new JLabel("Highscore: " + highscore.getHighscore()), gbc);
-			
-//			TODO: Highscore plazierung anzeigen lassen
-//			endScreen.add(new JLabel("HighscorePlatz: " + highscore.getHighscorePlacement()), gbc);
-			
-			
-			
-			
-			JButton restart = new JButton("RESTART");
-			restart.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					highscore.setName(playerName.getText());
-					HighscoreObject.writeHighscore(highscore);
-					endScreen.setVisible(false);
-					
-				}
-			});
-			
-			JButton end = new JButton("END GAME");
-			end.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					highscore.setName(playerName.getText());
-					HighscoreObject.writeHighscore(highscore);
-					
-//					System.out.println(HighscoreList.highscores);
-					System.out.println(highscore);
-				System.exit(0);
-				}
-			});
-			
-			gbc.gridx = 3;
-			gbc.gridy = 3;
-			endScreen.add(playerName, gbc);
-			
-			gbc.gridx = 0;
-			gbc.gridy = 5;
-			endScreen.add(restart, gbc);
-			
-			gbc.gridx = 5;
-			gbc.gridy = 5;
-			endScreen.add(end, gbc);
-			
-			endScreen.setSize(500, 500);
-			endScreen.setResizable(false);
-			endScreen.setLocationRelativeTo(null);
-			endScreen.setModal(true);
-			endScreen.setUndecorated(true);
-			endScreen.setVisible(true);		
-		
-		}
-	}
-
 	public void generateTube() {
 		
 		
@@ -212,7 +127,6 @@ public class Background {
 		double gap = Math.random()*350;
 		
 		if(toCreate) {
-			//TODO: Nicht TubeBot und TubeTop aufrufen!!
 			GameObject tubeBot = GameObjectFactory.createGameObject("tubeBot", GameObjectFactory.TUBEB, this.getWidth(), this.getHeight()-(400-gap), this, speed);
 			GameObject tubeTop = GameObjectFactory.createGameObject("tubeTop", GameObjectFactory.TUBET, this.getWidth(), this.getHeight()-(1500-gap), this, speed);
 			gameObjects.add(tubeBot);
@@ -232,15 +146,23 @@ public class Background {
 		
 	}
 	
+	public boolean isBirdDead() {
+		return bird.dead;
+	}
+	
 	public void generateBird() {
 		bird = (Bird) GameObjectFactory.createGameObject("Player1", 
 //				GameObjectFactory.BIRD, 150, 200, this, difficulty[2]);
-				GameObjectFactory.BIRD, 150, 200, this, 2);
+				GameObjectFactory.BIRD, 150, 200, this,  difficulty[2]);
 		gameObjects.add(bird);
 	}
 
 	public HighscoreObject getHighscore() {
 		return highscore;
+	}
+
+	public void setHighscoreName(String text) {
+		highscore.setName(text);
 	}
 	
 }

@@ -1,12 +1,22 @@
 
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import model.Background;
@@ -29,10 +39,22 @@ public class FlappyBirdPresenter {
 	
 	
 	public FlappyBirdPresenter(FlappyBirdApp window) {
+	
+		
 		this.window = window;
 		canvas = window.getFlappyBirdCanvas();
+	
+		/*
+		 * TODO:
+		 * 	Auslagern in eine eigene methode:
+		 * evtl. neuanlegen oder weiterbenutzen
+		 * 
+		 * mit background.reset
+		 * wenn background == null neuen erstellen
+		 * 
+		 */
 		
-		//Den Hintergrund festlegen
+		//Das Spielfeld festlegen (MODEL)
 		background = new Background(window.getWidth(),window.getHeight());
 		canvas.setPreferredSize(new Dimension(window.getWidth(), window.getHeight()));
 //		window.setVisible(true);
@@ -48,15 +70,27 @@ public class FlappyBirdPresenter {
 		canvas.setImageObjects(background.getGameObjects());
 		//GameObjects implementieren ImageObject daher mï¿½glich
 		
-			background.generateBird();
+		syncDifficulty();
+		background.generateBird();
 
-		
+		/*
+		 * if (timer != null timer.stop)
+		 * 
+		 */
 		timer = new Timer(frameTime, e-> {
 			if(window.isStarted()) {
 				updatePlayer();
 				background.generateTube(); 
 				background.moveAll();
-				canvas.setHighscore(background.getHighscore().getHighscore());
+				
+				//background bird.isdead -> timer.stop -> showendscren()
+				canvas.setHighscore(background.getHighscore().getHighscoreValue());
+				
+				if(background.isBirdDead()) {
+					timer.stop();
+					showEndScreen();
+				}
+				
 				canvas.repaint();
 			}
 		});
@@ -84,6 +118,88 @@ public class FlappyBirdPresenter {
 		
 		//gravitation
 		background.getBird().setDistanceY(grav);
+		
+	}
+	
+	public void showEndScreen() {
+					
+		JDialog endScreen = new JDialog();
+		endScreen.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		
+		gbc.gridy = 0;
+		gbc.gridx = 2;
+		JLabel gameOver = new JLabel("GameOver");
+		gameOver.setFont(new Font("Serif",Font.BOLD,30));
+		gameOver.setForeground(Color.RED);
+		endScreen.add(gameOver,gbc);
+			
+		JTextField playerName = new JTextField(10);
+		playerName.setForeground(Color.BLACK);
+		playerName.setBackground(Color.WHITE);
+
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridy = 3;
+		endScreen.add(new JLabel("Namen eingeben: "), gbc);
+
+		gbc.gridx = 3;
+		gbc.gridy = 2;
+		endScreen.add(new JLabel("Geschaffte Tubes: " + background.getHighscore().getPasses()), gbc);
+			
+		gbc.gridx = 3;
+		gbc.gridy = 1;
+		endScreen.add(new JLabel("Highscore: " + background.getHighscore().getHighscoreValue()), gbc);
+			
+//			TODO: Highscore plazierung anzeigen lassen
+//			endScreen.add(new JLabel("HighscorePlatz: " + highscore.getHighscorePlacement()), gbc);
+			
+			/*
+			TODO: gridbag layout spaces vergrößern
+				gidwid
+			*/
+			
+		JButton restart = new JButton("RESTART");
+		restart.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				background.setHighscoreName(playerName.getText());
+				HighscoreObject.writeHighscore(background.getHighscore());
+				endScreen.setVisible(false);
+					
+				}
+			});
+			
+		JButton end = new JButton("END GAME");
+		end.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				background.setHighscoreName(playerName.getText());
+				HighscoreObject.writeHighscore(background.getHighscore());
+					
+//				System.out.println(HighscoreList.highscores);
+				System.exit(0);
+				}
+			});
+			
+		gbc.gridx = 3;
+		gbc.gridy = 3;
+		endScreen.add(playerName, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		endScreen.add(restart, gbc);
+			
+		gbc.gridx = 5;
+		gbc.gridy = 5;
+		endScreen.add(end, gbc);
+			
+		endScreen.setSize(500, 500);
+		endScreen.setResizable(false);
+		endScreen.setLocationRelativeTo(null);
+		endScreen.setModal(true);
+		endScreen.setUndecorated(true);
+		endScreen.setVisible(true);		
 		
 	}
 

@@ -29,6 +29,7 @@ import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.TableModel;
 
 import model.HighscoreList;
 import model.HighscoreObject;
@@ -44,6 +45,7 @@ public class FlappyBirdApp extends JFrame {
 	private double difficulty[] =  new double[3]; 
 	
 	//Nach Architektur des Model-View-Presenter
+	//als objektattribut
 	private static FlappyBirdCanvas backgroundCanvas; //Am ende der View
 	private FlappyBirdPresenter presenter; //Am ende der Presenter
 	
@@ -53,15 +55,13 @@ public class FlappyBirdApp extends JFrame {
 	public static void main(String[] args) {
 		
 		FlappyBirdApp window = new FlappyBirdApp("FlappyBird by Marvin und Martin"); //erstellt JFrame
-		FlappyBirdPresenter presenter = new FlappyBirdPresenter(window); //setzt presenter
-		window.setPresenter(presenter); //presenter wird JFrame zugewisen
+		
 		window.setVisible(true); //JFrame wird sichtbar gemacht
 		backgroundCanvas.setVisible(false);
 		
 		menu = new JPanel(new GridBagLayout());
-
 		menu.setBackground(Color.DARK_GRAY);
-		
+		window.add(menu);
 	
 		
 //		menu.setVisible(false);
@@ -92,18 +92,23 @@ public class FlappyBirdApp extends JFrame {
 				highscoreDialog.setTitle("HIGHSCORE");
 				highscoreDialog.setSize(500, 500);
 				highscoreDialog.setResizable(false);
-				highscoreDialog.setLocationRelativeTo(null);
+				highscoreDialog.setLocationRelativeTo(null);	
 				
-				
-				
-//				String[][] data = presenter.getHighscoreArray();
-				
-				
-				//columnNames hinzuf�gen
+				//TESTDATA:
+				String[][] testData = {			
+			            { "Gib deinen Namen ein", "18.0"},
+			            { "Martin", "12.0" },
+			            { "Maritn :P", "30.0"},
+			            { "sdafsfdgdfg", "6.0"},
+			            { "Martin J. Brucker", "132.0"}	               
+			        };
 		        String[] columnNames = {"Name", "Highscore"};
 
 				
-				JTable highscores = new JTable(HighscoreObject.highscoreList);
+		    	HighscoreObject.readHighscores();
+		    	System.out.println(HighscoreObject.highscoreList);
+		    	
+				JTable highscores = new JTable(testData, columnNames);
 		        highscores.setBounds(30, 40, 200, 300);
 		        
 				highscoreDialog.add(highscores);
@@ -116,10 +121,12 @@ public class FlappyBirdApp extends JFrame {
 		
 		window.difficulty[0] = 10; //röhrenabstand
 		window.difficulty[1] = 10; //röhrenspeed
-		window.difficulty[2] = 20; //birdspeed	
+		window.difficulty[2] = 2; //birdspeed	
 		
-		
+		FlappyBirdPresenter presenter = new FlappyBirdPresenter(window); //setzt presenter
+		window.setPresenter(presenter); //presenter wird JFrame zugewisen
 		presenter.syncDifficulty();
+		
 		
 		JButton options = new JButton ("OPTIONS");
 		options.addActionListener(new ActionListener() {
@@ -227,7 +234,7 @@ public class FlappyBirdApp extends JFrame {
 		menu.add(options);
 	
 
-		window.add(menu);
+		
 	}
 
 	public FlappyBirdApp (String name) {
