@@ -185,22 +185,22 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		return pName;
 		
 	}	
-	/*
+	
 	//Wandelt die ArrayList<HighscoreObjects> in ein Array für die Textausgabe in einem JTable um und gibt dieses Array zurück
 	public String[][] getHighscoreArray() {
 		
-	/*
-	 * 
+		ArrayList<HighscoreObject> hl = highscoreList.getHighscores();
+	/* 
 	 * Wirft eine: 
 	 * Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException: class com.google.gson.internal.LinkedTreeMap cannot be cast to class model.HighscoreObject (com.google.gson.internal.LinkedTreeMap and model.HighscoreObject are in unnamed module of loader 'app')
 	at model.HighscoreObject.getHighscoreArray(HighscoreObject.java:158)
-	 * 
-		String[][] data = new String[highscores.size()][2];
+	 */ 
+		String[][] data = new String[highscoreList.getHighscores().size()][2];
 	
 		int counter = 0;
-		for (HighscoreObject highscoreObject : highscores) {
+		for (HighscoreObject highscoreObject : hl) {
 			data[counter][0] = highscoreObject.getName();
-			data[counter][1] = Double.toString(highscoreObject.getHighscore());
+			data[counter][1] = Double.toString(highscoreObject.getHighscoreValue());
 			counter++;
 		}
 		
@@ -217,8 +217,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		return testData;
 		
 	}
-	*/
-
+	
 	//TODO: Muss noch getested werden, zuerst einlesen von JSONS 
 	@Override
 	public int compareTo(HighscoreObject o) {

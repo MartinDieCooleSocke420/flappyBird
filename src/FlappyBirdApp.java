@@ -39,46 +39,86 @@ public class FlappyBirdApp extends JFrame {
 	
 
 	private static final long serialVersionUID = 1L;
-//	private JPanel panel;
-	private static JPanel menu;
 	private boolean started = false;
 	private double difficulty[] =  new double[3]; 
+	private JPanel menu = new JPanel(new GridBagLayout());
 	
 	//Nach Architektur des Model-View-Presenter
 	//als objektattribut
-	private static FlappyBirdCanvas backgroundCanvas; //Am ende der View
+	private FlappyBirdCanvas backgroundCanvas = new FlappyBirdCanvas();; //Am ende der View
 	private FlappyBirdPresenter presenter; //Am ende der Presenter
 	
 	//ein collection Set f�r die Steuerung
 	private Set<Integer> statusTasten = new HashSet<Integer>();
 		
 	public static void main(String[] args) {
-		
 		FlappyBirdApp window = new FlappyBirdApp("FlappyBird by Marvin und Martin"); //erstellt JFrame
+		window.setVisible(true); 
 		
-		window.setVisible(true); //JFrame wird sichtbar gemacht
-		backgroundCanvas.setVisible(false);
 		
-		menu = new JPanel(new GridBagLayout());
+		
+	}
+
+	public FlappyBirdApp (String name) {
+		super(name);
+		setBounds(0, 0, 1080, 720);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		//Standart Schwierigkeit:
+		difficulty[0] = 10; //roehrenabstand
+		difficulty[1] = 10; //roehrenspeed
+		difficulty[2] = 2; //birdspeed	
+		
+		
+		initialize();
+	}
+		
+	private void initialize() {		
+		presenter = new FlappyBirdPresenter(this); //setzt presenter
+		presenter.syncDifficulty();
+		
+		add(menu);
+		
+//		add(backgroundCanvas); //TODO: Add eigentlich hier? siehe zeile 122
+		
+		
+		//ereignisbehandlung
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+
+			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_SPACE) {
+				if(e.getID() == KeyEvent.KEY_PRESSED) {
+					presenter.addStatusTasten(e.getKeyCode());
+					
+				}
+				else if(e.getID() == KeyEvent.KEY_RELEASED) {
+					presenter.removeStatusTasten(e.getKeyCode());	
+				}
+				return true;
+			}
+			return false;
+		});
+		
+		
+		/*
+		 * Generate Menu
+		 * 
+		 */
+
 		menu.setBackground(Color.DARK_GRAY);
-		window.add(menu);
-	
+//		add(menu);
+		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.insets = new Insets(10,10,10,10);
-		
-//		menu.setVisible(false);
-		
-		// da Probleme beim starten menü geskipt, ENTFERNEN
-//		 backgroundCanvas.setVisible(true);
-//		 window.started = true;
-				
+
 		JButton start = new JButton("START");
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				window.started = true;
-				FlappyBirdCanvas fbc = new FlappyBirdCanvas();
-				fbc.setVisible(true); //display jframe2
+				started = true;
+				add(backgroundCanvas);  //TODO: WARUM ADD HIER??? 
 				menu.setVisible(false);
 				backgroundCanvas.setVisible(true);
 			}
@@ -98,7 +138,7 @@ public class FlappyBirdApp extends JFrame {
 				highscoreDialog.setTitle("HIGHSCORE");
 				highscoreDialog.setSize(500, 500);
 				highscoreDialog.setResizable(false);
-				highscoreDialog.setLocationRelativeTo(null);	
+				highscoreDialog.setLocationRelativeTo(null);					
 				
 				//TESTDATA:
 				String[][] testData = {			
@@ -108,8 +148,10 @@ public class FlappyBirdApp extends JFrame {
 			            { "sdafsfdgdfg", "6.0"},
 			            { "Martin J. Brucker", "132.0"}	               
 			        };
+			        
+			       
 		        String[] columnNames = {"Name", "Highscore"};
-
+//		        data [][] = 
 				
 		    	HighscoreObject.readHighscores();
 		    	System.out.println(HighscoreObject.highscoreList);
@@ -127,14 +169,6 @@ public class FlappyBirdApp extends JFrame {
 		constraints.gridy = 0;
 		menu.add(highscore);
 		
-		
-		window.difficulty[0] = 10; //röhrenabstand
-		window.difficulty[1] = 10; //röhrenspeed
-		window.difficulty[2] = 2; //birdspeed	
-		
-		FlappyBirdPresenter presenter = new FlappyBirdPresenter(window); //setzt presenter
-		window.setPresenter(presenter); //presenter wird JFrame zugewisen
-		presenter.syncDifficulty();
 		
 		
 		JButton options = new JButton ("OPTIONS");
@@ -158,11 +192,11 @@ public class FlappyBirdApp extends JFrame {
 				tubeDistance.setMajorTickSpacing(25);
 				tubeDistance.setPaintTicks(true);
 				tubeDistance.setPaintLabels(true);
-				tubeDistance.setValue((int) window.difficulty[0]);
+				tubeDistance.setValue((int) difficulty[0]);
 				tubeDistance.addChangeListener(new ChangeListener() {
 					@Override
 					public void stateChanged(ChangeEvent e) {
-						window.difficulty[0] = tubeDistance.getValue();						
+						difficulty[0] = tubeDistance.getValue();						
 					}
 				});
 				
@@ -176,11 +210,11 @@ public class FlappyBirdApp extends JFrame {
 				tubeSpeed.setMajorTickSpacing(25);
 				tubeSpeed.setPaintTicks(true);
 				tubeSpeed.setPaintLabels(true);
-				tubeSpeed.setValue((int) window.difficulty[1]);
+				tubeSpeed.setValue((int) difficulty[1]);
 				tubeSpeed.addChangeListener(new ChangeListener() {
 					@Override
 					public void stateChanged(ChangeEvent e) {
-						window.difficulty[1] = tubeSpeed.getValue();						
+						difficulty[1] = tubeSpeed.getValue();						
 					}
 				});
 				
@@ -192,28 +226,24 @@ public class FlappyBirdApp extends JFrame {
 				birdSpeed.setMajorTickSpacing(25);
 				birdSpeed.setPaintTicks(true);
 				birdSpeed.setPaintLabels(true);
-				birdSpeed.setValue((int) window.difficulty[2]);
+				birdSpeed.setValue((int) difficulty[2]);
 				birdSpeed.addChangeListener(new ChangeListener() {
 					@Override
 					public void stateChanged(ChangeEvent e) {
-						window.difficulty[2] = birdSpeed.getValue();						
+						difficulty[2] = birdSpeed.getValue();						
 					}
 				});
 				
 				//TODO: richtiges Umwandeln der Sliderwerte (im Background?)
 				//TODO: .getValue gibt immer 50 aus, hier muss ein ?changelistener? eingef�gt werden
 				//https://docs.oracle.com/javase/tutorial/uiswing/components/slider.html
-							
-				
-				
-	
-				
-				
+											
 				//Speichern Button zum schliesen des JDialogs 
 				JButton speichern = new JButton("Speichern");
 				speichern.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						presenter.syncDifficulty();
 						difficultyDialog.setVisible(false);
 						
 					}
@@ -228,57 +258,10 @@ public class FlappyBirdApp extends JFrame {
 		constraints.gridx = 10;
 		constraints.gridy = 0;
 		menu.add(options);		
-	
-
 		
-	}
-
-	public FlappyBirdApp (String name) {
-		super(name);
-		initialize();
-	}
-	
-	//	JFrame inizialisieren
-	
-	
-	private void initialize() {
-		
-		difficulty[0] = 0.5;
-		difficulty[1] = 3;
-		difficulty[2] = 9;
-		
-		this.setBounds(0, 0, 1080, 720);
-		this.setResizable(false);
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
-		backgroundCanvas = new FlappyBirdCanvas();
-		this.add(backgroundCanvas, BorderLayout.CENTER);
-		
-		//ereignisbehandlung
-		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
-
-			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_SPACE) {
-				if(e.getID() == KeyEvent.KEY_PRESSED) {
-					presenter.addStatusTasten(e.getKeyCode());
-					
-				}
-				else if(e.getID() == KeyEvent.KEY_RELEASED) {
-					presenter.removeStatusTasten(e.getKeyCode());	
-				}
-				return true;
-			}
-			return false;
-		});
-
 		
 	}
 	
-	private void setPresenter(FlappyBirdPresenter presenter) {
-		this.presenter = presenter;
-		
-	}
-
 	public FlappyBirdCanvas getFlappyBirdCanvas() {
 		return backgroundCanvas;
 	}

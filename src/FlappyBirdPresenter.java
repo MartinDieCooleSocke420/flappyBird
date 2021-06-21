@@ -49,7 +49,7 @@ public class FlappyBirdPresenter {
 			background = new Background(window.getWidth(),window.getHeight());
 			canvas.setPreferredSize(new Dimension(window.getWidth(), window.getHeight()));
 			canvas.setImageObjects(background.getGameObjects()); //übergibt nicht veraenderbare Liste
-			syncDifficulty();
+			syncDifficulty(); //muss nur einmal gemacht werden, da späteres ändern nicht möglich ist
 		}
 		else //Wenn Spielfeld bereits besteht, nicht neu erstellen, sondern reset
 			background.reset();
