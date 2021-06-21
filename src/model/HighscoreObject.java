@@ -31,21 +31,20 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	private int passes = 0;
 	private double highscore = 0;
 	
-	public static HighscoreList highscoreList = null;
+	public static HighscoreList highscoreList = new HighscoreList();
+	//TODO: WENN NICHT STATISCH java.lang.StackOverflowError !!!???
+	
 	private static final String savePath = "highscores.json"; 
 	
 	public HighscoreObject () {
-//		highscoreList = readHighscores();
+//		readHighscores();
 	}
 
-	/*
-	public static HighscoreList readHighscores() {
+	public void readHighscores() {
 		
 		HighscoreList hl = null;
+		
 		try (BufferedReader fr = new BufferedReader(new FileReader(HighscoreObject.savePath))) {
-			
-			
-			
 			StringBuilder sb = new StringBuilder();
 			String line;
 			while((line = fr.readLine()) != null)
@@ -55,37 +54,15 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 			hl = gson.fromJson(sb.toString(), HighscoreList.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();		
-		}
-	
-		if(hl != null) {
-			return hl;	
-		}
-		
-		return hl = new HighscoreList();	
-	}
-	*/
-
-	public static HighscoreList readHighscores() {
-		
-		HighscoreList hl = null;
-		
-		try {
-			String highscoreListAsJson = new String(Files.readAllBytes(Paths.get(savePath)));
-			
-			Gson gson = new Gson();
-			hl = gson.fromJson(highscoreListAsJson, HighscoreList.class);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException  e) {
 			e.printStackTrace();
 		}
 		
-		if(hl != null) 
-			return hl;	
-
-		return hl = new HighscoreList();	
+		//Wenn die eingelesene hl gültig ist, soll sie alst objektatribut festgelegt werden
+		if(hl != null) {
+			this.highscoreList = hl;	
+			return;
+		}		
 	}
 
 
@@ -96,28 +73,24 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	}
 
 
-	public static void writeHighscore(HighscoreObject highscore) {
-		
-		if(highscoreList == null) {
-			HighscoreObject.readHighscores();
-		}
-
-		if(highscoreList == null)
-			highscoreList = new HighscoreList();
+	public static void writeHighscore(HighscoreList highscoreList) {
 		
 		//TODO: Versuchen vom server zu holen
-		
-		
-		highscoreList.getHighscores().add(highscore);
+	
 //		Collections.sort(highscores); //TODO: sortieren der HighscoreListe
-
-		try (Writer writer = new FileWriter(savePath)) {
-			Gson gson = new GsonBuilder().create();
-			String highscoreListAsJson = gson.toJson(highscoreList);
-			writer.write(highscoreListAsJson);
+		
+		System.out.println(highscoreList);
+		
+		Gson gson = new Gson();
+		String highscoreListAsJson = gson.toJson(highscoreList);
+		
+		System.out.println(highscoreListAsJson);
+		
+		try (FileWriter fw = new FileWriter(savePath)) {
+			fw.write(highscoreListAsJson);			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}		
 		
 		ClientSendToServer t1 = new ClientSendToServer("Verbindung 1");
 		t1.start();
@@ -175,7 +148,6 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		return passes;
 	}
 
-
 	public void setName(String text) {
 		this.pName = text;
 		
@@ -214,7 +186,7 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 	            { "Martin J. Brucker", "132.0"}	               
 	        };
 
-		return testData;
+		return data;
 		
 	}
 	
@@ -259,6 +231,10 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		if (passes != other.passes)
 			return false;
 		return true;
+	}
+
+	public HighscoreList getHighscoreList() {
+		return highscoreList;
 	}
 	
 }

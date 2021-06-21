@@ -49,14 +49,11 @@ public class FlappyBirdApp extends JFrame {
 	private FlappyBirdPresenter presenter; //Am ende der Presenter
 	
 	//ein collection Set fï¿½r die Steuerung
-	private Set<Integer> statusTasten = new HashSet<Integer>();
+	private Set<Integer> statusTasten = new HashSet<Integer>();  //TODO: Benötigt????
 		
 	public static void main(String[] args) {
 		FlappyBirdApp window = new FlappyBirdApp("FlappyBird by Marvin und Martin"); //erstellt JFrame
-		window.setVisible(true); 
-		
-		
-		
+		window.setVisible(true); 	
 	}
 
 	public FlappyBirdApp (String name) {
@@ -153,10 +150,9 @@ public class FlappyBirdApp extends JFrame {
 		        String[] columnNames = {"Name", "Highscore"};
 //		        data [][] = 
 				
-		    	HighscoreObject.readHighscores();
-		    	System.out.println(HighscoreObject.highscoreList);
+		    	presenter.readHighscores();
 		    	
-				JTable highscores = new JTable(testData, columnNames);
+				JTable highscores = new JTable(presenter.getHighscoreArray(), columnNames);
 		        highscores.setBounds(30, 40, 200, 300);
 		        
 				highscoreDialog.add(highscores);

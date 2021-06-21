@@ -139,7 +139,9 @@ public class FlappyBirdPresenter {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				background.setHighscoreName(playerName.getText());
-				HighscoreObject.writeHighscore(background.getHighscore());
+				
+				background.addHighscore();
+				background.writeHighscore();
 				createNewGame();
 				endScreen.setVisible(false);
 					
@@ -151,7 +153,9 @@ public class FlappyBirdPresenter {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				background.setHighscoreName(playerName.getText());
-				HighscoreObject.writeHighscore(background.getHighscore());
+				
+				background.addHighscore();
+				background.writeHighscore();
 					
 //				System.out.println(HighscoreList.highscores);
 				System.exit(0);
@@ -189,5 +193,13 @@ public class FlappyBirdPresenter {
 
 	public void syncDifficulty() {
 		background.setDifficulty(window.getDifficulty());
+	}
+
+	public String[][] getHighscoreArray() {
+		return background.getHighscore().getHighscoreArray();
+	}
+
+	public void readHighscores() {
+		background.getHighscore().readHighscores();
 	}
 }

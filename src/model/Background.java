@@ -170,5 +170,15 @@ public class Background {
 		highscore = new HighscoreObject();
 		bird = null;
 	}
+
+	public void writeHighscore() {
+		HighscoreObject.writeHighscore(highscore.getHighscoreList());
+		
+	}
+
+	public void addHighscore() {
+		highscore.getHighscoreList().add(highscore);
+		
+	}
 	
 }
