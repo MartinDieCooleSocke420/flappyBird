@@ -102,7 +102,7 @@ public class Background {
 	public void generateTube() {
 		
 		
-		double abstand = difficulty[0] * 100; //nach wieviel prozent vom canvas eine neue r�hre kommen soll
+		double abstand = difficulty[0] * 100; //nach wieviel pxl vom canvas eine neue r�hre kommen soll
 		double speed = difficulty[1];
 		
 		boolean toCreate = true;

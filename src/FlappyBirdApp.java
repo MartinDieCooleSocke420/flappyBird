@@ -124,9 +124,7 @@ public class FlappyBirdApp extends JFrame {
 		constraints.gridy = 0;
 		menu.add(start);
 
-		
-		
-		//TODO: getHighscoreArray wirft error, in model/HighscoreObject mehr beschrieben		
+			
 		JButton highscore = new JButton("HIGHSCORE");
 		highscore.addActionListener(new ActionListener() {
 			@Override
@@ -229,12 +227,7 @@ public class FlappyBirdApp extends JFrame {
 						difficulty[2] = birdSpeed.getValue();						
 					}
 				});
-				
-				//TODO: richtiges Umwandeln der Sliderwerte (im Background?)
-				//TODO: .getValue gibt immer 50 aus, hier muss ein ?changelistener? eingefügt werden
-				//https://docs.oracle.com/javase/tutorial/uiswing/components/slider.html
-											
-				//Speichern Button zum schliesen des JDialogs 
+
 				JButton speichern = new JButton("Speichern");
 				speichern.addActionListener(new ActionListener() {
 					@Override

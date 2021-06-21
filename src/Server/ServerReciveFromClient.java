@@ -45,7 +45,6 @@ public class ServerReciveFromClient extends Thread {
 					FlappyBirdServer.highscores = gson.fromJson(line, new TypeToken<ArrayList<HighscoreObject>>() {}.getType());
 					
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
