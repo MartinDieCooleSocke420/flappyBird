@@ -97,6 +97,11 @@ public class FlappyBirdPresenter {
 	}
 	
 	public void showEndScreen() {
+		
+		/*
+		TODO: gridbag layout spaces vergrößern
+			gidwid
+		*/
 					
 		JDialog endScreen = new JDialog();
 		endScreen.setLayout(new GridBagLayout());
@@ -126,13 +131,11 @@ public class FlappyBirdPresenter {
 		gbc.gridy = 1;
 		endScreen.add(new JLabel("Highscore: " + background.getHighscore().getHighscoreValue()), gbc);
 			
-//			TODO: Highscore plazierung anzeigen lassen
-//			endScreen.add(new JLabel("HighscorePlatz: " + highscore.getHighscorePlacement()), gbc);
-			
-			/*
-			TODO: gridbag layout spaces vergrößern
-				gidwid
-			*/
+//			TODO: Highscore plazierung anzeigen lassen, muss noch im background gemacht werden
+		gbc.gridy = 3;
+		gbc.gridy = 0;
+		endScreen.add(new JLabel("HighscorePlatz: " + background.getHighscore().getHighscorePlacement()), gbc);
+	
 			
 		JButton restart = new JButton("RESTART");
 		restart.addActionListener(new ActionListener() {

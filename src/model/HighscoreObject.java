@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
-public class HighscoreObject implements Comparable<HighscoreObject>{
+public class HighscoreObject {
 	
 	private String pName;
 	private int passes = 0;
@@ -60,13 +61,15 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		
 		//Wenn die eingelesene hl gültig ist, soll sie alst objektatribut festgelegt werden
 		if(hl != null) {
-			this.highscoreList = hl;	
+			HighscoreObject.highscoreList = hl;				
+			
+			//Sortieren der ArrayListe nach dem Einlesen
+			highscoreList.getHighscores().sort(Comparator.comparing(HighscoreObject::getHighscoreValue));
+			Collections.reverse(highscoreList.getHighscores());
 			return;
 		}		
 	}
 
-
-	
 	@Override
 	public String toString() {
 		return "HighscoreObject [pName=" + pName + ", passes=" + passes + ", highscore=" + highscore + "]";
@@ -97,17 +100,17 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		
 	}
 
+	/**
+	 * Ueberprueft ob der Spieler gerade eine Roehre durchquert hat und erhoet beim erfolgreichen durchfliegen
+	 * die passes und den Highscore
+	 * 
+	 * @param gameObjects liste aller Gameobjects
+	 */
 	public void checkHighscore(List<GameObject> gameObjects) {
 		for (GameObject gameObject : gameObjects) {
 			if(gameObject instanceof Tube) {
 				for (GameObject gameObject1 : gameObjects) {
 					if(gameObject1 instanceof Bird) {
-						
-						/*
-						 * Da die X Koordinate von Roehre und Bird nur auußerst selten identisch sind,
-						 * werden diese erst durch 5 geteilt und verglichen. Hierdurch entsteht eine
-						 * ungenauigkeit, diese ist aber verwerflich						 * 
-						 */						
 						
 						//TODO: je nach tube speed funktioniert es nicht
 						if( (int) gameObject.getX() == (int) gameObject1.getX()) {
@@ -121,24 +124,45 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		}		
 	}
 	
-	/*
-	//TODO: Muss noch getestet werden
+
+	//TODO: Funktioniert noch nicht, gerade zu müde das zu machen, mach ich morgen
 	public int getHighscorePlacement() {
 		
 		int counter = 0;
+		ArrayList<HighscoreObject> highscores = highscoreList.getHighscores();
 		
 		for (HighscoreObject highscoreObject : highscores) {
-			if (highscoreObject.getHighscore() > getHighscore())
+			if (highscoreObject.getHighscoreValue() > getHighscoreValue())
 				return counter;	
 		}
-		//wenn der eintrag der letzte ist soll der highscore selber nochmal zurück gegeben werden
 
+		//wenn der eintrag der letzte ist soll der highscore selber nochmal zurück gegeben werden
 		return counter;
 
 	}
-	*/
+
 	
 	
+	//Wandelt die ArrayList<HighscoreObjects> in ein Array für die Textausgabe in einem JTable um und gibt dieses Array zurück
+	public String[][] getHighscoreArray() {
+		
+		ArrayList<HighscoreObject> hl = highscoreList.getHighscores();
+
+		String[][] data = new String[highscoreList.getHighscores().size()][2];
+	
+		int counter = 0;
+		for (HighscoreObject highscoreObject : hl) {
+			data[counter][0] = highscoreObject.getName();
+			data[counter][1] = Double.toString(highscoreObject.getHighscoreValue());
+			counter++;
+		}
+		
+		return data;
+		
+	}
+	
+	//Getters && Setters
+
 	public double getHighscoreValue() {
 		return highscore;
 	}
@@ -157,84 +181,9 @@ public class HighscoreObject implements Comparable<HighscoreObject>{
 		return pName;
 		
 	}	
-	
-	//Wandelt die ArrayList<HighscoreObjects> in ein Array für die Textausgabe in einem JTable um und gibt dieses Array zurück
-	public String[][] getHighscoreArray() {
-		
-		ArrayList<HighscoreObject> hl = highscoreList.getHighscores();
-	/* 
-	 * Wirft eine: 
-	 * Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException: class com.google.gson.internal.LinkedTreeMap cannot be cast to class model.HighscoreObject (com.google.gson.internal.LinkedTreeMap and model.HighscoreObject are in unnamed module of loader 'app')
-	at model.HighscoreObject.getHighscoreArray(HighscoreObject.java:158)
-	 */ 
-		String[][] data = new String[highscoreList.getHighscores().size()][2];
-	
-		int counter = 0;
-		for (HighscoreObject highscoreObject : hl) {
-			data[counter][0] = highscoreObject.getName();
-			data[counter][1] = Double.toString(highscoreObject.getHighscoreValue());
-			counter++;
-		}
-		
-	
-		
-		String[][] testData = {			
-	            { "Gib deinen Namen ein", "18.0"},
-	            { "Martin", "12.0" },
-	            { "Maritn :P", "30.0"},
-	            { "sdafsfdgdfg", "6.0"},
-	            { "Martin J. Brucker", "132.0"}	               
-	        };
-
-		return data;
-		
-	}
-	
-	//TODO: Muss noch getested werden, zuerst einlesen von JSONS 
-	@Override
-	public int compareTo(HighscoreObject o) {
-		if (o.getHighscoreValue() > this.highscore)
-			return 1;
-		return 0;
-	}
-	
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(highscore);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((pName == null) ? 0 : pName.hashCode());
-		result = prime * result + passes;
-		return result;
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HighscoreObject other = (HighscoreObject) obj;
-		if (Double.doubleToLongBits(highscore) != Double.doubleToLongBits(other.highscore))
-			return false;
-		if (pName == null) {
-			if (other.pName != null)
-				return false;
-		} else if (!pName.equals(other.pName))
-			return false;
-		if (passes != other.passes)
-			return false;
-		return true;
-	}
 
 	public HighscoreList getHighscoreList() {
 		return highscoreList;
 	}
-	
+
 }
