@@ -41,10 +41,16 @@ public class HighscoreObject {
 //		readHighscores();
 	}
 
+	/**
+	 * Liest den Highscore aus den lokalen Daten, fragt beim Server an ob dieser einen Highscore hat
+	 * wenn ein Server datenzurücksendet, werden diese verwendet. Ansonsten die lokalen
+	 * 
+	 */
 	public void readHighscores() {
 		
-		HighscoreList hl = null;
+		HighscoreList highscoreListLocal = null;
 		
+
 		try (BufferedReader fr = new BufferedReader(new FileReader(HighscoreObject.savePath))) {
 			StringBuilder sb = new StringBuilder();
 			String line;
@@ -52,7 +58,7 @@ public class HighscoreObject {
 				sb.append(line);
 			Gson gson = new Gson();
 			
-			hl = gson.fromJson(sb.toString(), HighscoreList.class);
+			highscoreListLocal = gson.fromJson(sb.toString(), HighscoreList.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException  e) {
@@ -60,14 +66,29 @@ public class HighscoreObject {
 		}
 		
 		//Wenn die eingelesene hl gültig ist, soll sie alst objektatribut festgelegt werden
-		if(hl != null) {
-			HighscoreObject.highscoreList = hl;				
-			
-			//Sortieren der ArrayListe nach dem Einlesen
-			highscoreList.getHighscores().sort(Comparator.comparing(HighscoreObject::getHighscoreValue));
-			Collections.reverse(highscoreList.getHighscores());
-			return;
-		}		
+		if(highscoreListLocal != null) {
+			HighscoreObject.highscoreList = highscoreListLocal;				
+		}	
+		
+		
+		
+		
+		//TODO: unschön mit .join direkt nach dem starten
+		//Ueberprueft ob die eingelesene Highscorelist mit dem Server uebereinstimmt
+		ClientSendToServer t1 = new ClientSendToServer("Verbindung 1");
+		t1.start();
+		
+		try {
+			t1.join();
+			if(t1.getMsgFromServer() != null)
+				HighscoreObject.highscoreList = new Gson().fromJson(t1.getMsgFromServer(), HighscoreList.class);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+	
 	}
 
 	@Override
@@ -77,12 +98,12 @@ public class HighscoreObject {
 
 
 	public static void writeHighscore(HighscoreList highscoreList) {
+				
+		//Sortieren der ArrayListe vor dem Abspeichern
+		highscoreList.getHighscores().sort(Comparator.comparing(HighscoreObject::getHighscoreValue));
+		Collections.reverse(highscoreList.getHighscores());
 		
-		//TODO: Versuchen vom server zu holen
-	
-//		Collections.sort(highscores); //TODO: sortieren der HighscoreListe
-		
-		System.out.println(highscoreList);
+
 		
 		Gson gson = new Gson();
 		String highscoreListAsJson = gson.toJson(highscoreList);
@@ -93,11 +114,12 @@ public class HighscoreObject {
 			fw.write(highscoreListAsJson);			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}				
 		
+		
+		//Highscore zum Server senden
 		ClientSendToServer t1 = new ClientSendToServer("Verbindung 1");
 		t1.start();
-		
 	}
 
 	/**
@@ -159,6 +181,41 @@ public class HighscoreObject {
 		
 		return data;
 		
+	}
+	
+	//hashCode && Equals
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(highscore);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((pName == null) ? 0 : pName.hashCode());
+		result = prime * result + passes;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HighscoreObject other = (HighscoreObject) obj;
+		if (Double.doubleToLongBits(highscore) != Double.doubleToLongBits(other.highscore))
+			return false;
+		if (pName == null) {
+			if (other.pName != null)
+				return false;
+		} else if (!pName.equals(other.pName))
+			return false;
+		if (passes != other.passes)
+			return false;
+		return true;
 	}
 	
 	//Getters && Setters

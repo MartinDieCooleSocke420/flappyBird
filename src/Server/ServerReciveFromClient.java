@@ -11,15 +11,18 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import model.HighscoreList;
 import model.HighscoreObject;
 
 public class ServerReciveFromClient extends Thread {
 
 	
 	public boolean isStarted = false;
+	private FlappyBirdServer fBserver;
 
-	public ServerReciveFromClient (String name){
+	public ServerReciveFromClient (String name, FlappyBirdServer fBserver){
 		super(name);
+		this.fBserver = fBserver;
 	}
 	
 	public void run() {
@@ -30,6 +33,8 @@ public class ServerReciveFromClient extends Thread {
 			System.out.println("Server gestartet!");
 
 			while (true) {
+				
+				HighscoreList hs = new HighscoreList();
 
 				try (Socket socket = server.accept()) { // try-with-resources, Auf Verbindung warten, Methode blockiert
 					socket.setSoTimeout(5000);
@@ -38,23 +43,27 @@ public class ServerReciveFromClient extends Thread {
 					PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true); // Outputstream zum Client mit autoflush
 
 					String line = socketIn.readLine();
+					Gson gson = new Gson();			
+					hs = gson.fromJson(line, HighscoreList.class);
 					
 					
-					Gson gson = new Gson();
-										
-					FlappyBirdServer.highscores = gson.fromJson(line, new TypeToken<ArrayList<HighscoreObject>>() {}.getType());
+					//Die vom client übergebenen Highscores werden mit den highscoreObjects vom Server verglichen
+					//und abschliessend abgespeichert					
+					if(hs != null) {
+						fBserver.checkHighscores(hs);
+						FlappyBirdServer.writeHighscore(FlappyBirdServer.highscoreList);
+					}
+					
+					//Zurückgeben der ServerHighscorelist an den Client
+					if(hs != FlappyBirdServer.highscoreList)
+						socketOut.println(gson.toJson(FlappyBirdServer.highscoreList));
 					
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
-				
-				System.out.println("Highscores werden gespeichert!");
-				FlappyBirdServer.writeHighscore(FlappyBirdServer.highscores);
+				}		
 
-				System.out.println("Warte auf nchste Anfrage!");
 			}
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}

@@ -115,6 +115,8 @@ public class FlappyBirdPresenter {
 		gameOver.setForeground(Color.RED);
 		endScreen.add(gameOver,gbc);
 			
+		
+		//TODO: playerName als Pflichtfeld
 		JTextField playerName = new JTextField(10);
 		playerName.setForeground(Color.BLACK);
 		playerName.setBackground(Color.WHITE);
@@ -130,8 +132,8 @@ public class FlappyBirdPresenter {
 		gbc.gridx = 3;
 		gbc.gridy = 1;
 		endScreen.add(new JLabel("Highscore: " + background.getHighscore().getHighscoreValue()), gbc);
-			
-//			TODO: Highscore plazierung anzeigen lassen, muss noch im background gemacht werden
+				
+		//	TODO: Highscore plazierung anzeigen lassen, muss noch im background gemacht werden
 		gbc.gridy = 3;
 		gbc.gridy = 0;
 		endScreen.add(new JLabel("HighscorePlatz: " + background.getHighscore().getHighscorePlacement()), gbc);

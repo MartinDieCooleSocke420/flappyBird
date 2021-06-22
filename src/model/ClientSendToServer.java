@@ -13,13 +13,12 @@ import com.google.gson.Gson;
 
 public class ClientSendToServer extends Thread {
 
-	
+	private String msgFromServer;
 	public ClientSendToServer(String name) {
 		super(name);
 	}
 
 	public void run() {
-		System.out.println("Client gestartet!");
 		
 		String hostName = "localhost"; // Rechner-Name bzw. -Adresse
 		int port = 4242; // Port-Nummer
@@ -33,11 +32,12 @@ public class ClientSendToServer extends Thread {
 			PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true); // Outputstream zum Server
 
 			
-			socketOut.println(gson.toJson("TODO:"));
+			socketOut.println(gson.toJson(HighscoreObject.highscoreList));
 
-			String text = socketIn.readLine(); // Zeile vom Server empfangen
-
-			System.out.println(text); // Zeile auf die Konsole schreiben
+			
+			//TODO: Hier kommt die aktuelle Higshscoreliste an
+			msgFromServer = socketIn.readLine();
+		
 			
 
 		} catch (UnknownHostException ue) {
@@ -48,5 +48,9 @@ public class ClientSendToServer extends Thread {
 			System.out.println("IO-Error");
 		}
 
+	}
+	
+	public String getMsgFromServer() {
+		return msgFromServer;
 	}
 }
