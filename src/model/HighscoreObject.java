@@ -150,16 +150,11 @@ public class HighscoreObject {
 	//TODO: Funktioniert noch nicht, gerade zu müde das zu machen, mach ich morgen
 	public int getHighscorePlacement() {
 		
-		int counter = 0;
-		ArrayList<HighscoreObject> highscores = highscoreList.getHighscores();
-		
-		for (HighscoreObject highscoreObject : highscores) {
-			if (highscoreObject.getHighscoreValue() > getHighscoreValue())
-				return counter;	
-		}
+		//Sortieren der highscores
+		highscoreList.getHighscores().sort(Comparator.comparing(HighscoreObject::getHighscoreValue));
+		Collections.reverse(highscoreList.getHighscores());
 
-		//wenn der eintrag der letzte ist soll der highscore selber nochmal zurück gegeben werden
-		return counter;
+		return highscoreList.getHighscores().indexOf(this) + 1;
 
 	}
 

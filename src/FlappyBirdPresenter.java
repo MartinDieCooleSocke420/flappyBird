@@ -115,6 +115,7 @@ public class FlappyBirdPresenter {
 		gameOver.setForeground(Color.RED);
 		endScreen.add(gameOver,gbc);
 			
+		background.addHighscore();
 		
 		//TODO: playerName als Pflichtfeld
 		JTextField playerName = new JTextField(10);
@@ -132,11 +133,10 @@ public class FlappyBirdPresenter {
 		gbc.gridx = 3;
 		gbc.gridy = 1;
 		endScreen.add(new JLabel("Highscore: " + background.getHighscore().getHighscoreValue()), gbc);
-				
 		//	TODO: Highscore plazierung anzeigen lassen, muss noch im background gemacht werden
 		gbc.gridy = 3;
 		gbc.gridy = 0;
-		endScreen.add(new JLabel("HighscorePlatz: " + background.getHighscore().getHighscorePlacement()), gbc);
+		endScreen.add(new JLabel("HighscorePlatz: " + background.getHighscore().getHighscorePlacement() ), gbc);
 	
 			
 		JButton restart = new JButton("RESTART");
@@ -145,7 +145,6 @@ public class FlappyBirdPresenter {
 			public void actionPerformed(ActionEvent e) {
 				background.setHighscoreName(playerName.getText());
 				
-				background.addHighscore();
 				background.writeHighscore();
 				createNewGame();
 				endScreen.setVisible(false);
@@ -158,11 +157,7 @@ public class FlappyBirdPresenter {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				background.setHighscoreName(playerName.getText());
-				
-				background.addHighscore();
 				background.writeHighscore();
-					
-//				System.out.println(HighscoreList.highscores);
 				System.exit(0);
 				}
 			});
@@ -173,10 +168,12 @@ public class FlappyBirdPresenter {
 		
 		gbc.gridx = 0;
 		gbc.gridy = 5;
+		restart.setBackground(Color.GREEN);
 		endScreen.add(restart, gbc);
 			
 		gbc.gridx = 5;
 		gbc.gridy = 5;
+		end.setBackground(Color.RED);
 		endScreen.add(end, gbc);
 			
 		endScreen.setSize(500, 500);
