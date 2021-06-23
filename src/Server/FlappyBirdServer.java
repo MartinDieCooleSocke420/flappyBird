@@ -1,33 +1,29 @@
 package Server;
-import java.awt.List;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+
 import java.io.Writer;
-import java.lang.reflect.Type;
-import java.net.ServerSocket;
-import java.net.Socket;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
-import model.ClientSendToServer;
 import model.HighscoreList;
 import model.HighscoreObject;
 
 public class FlappyBirdServer {
 
-	private static final String savePath = "highscoreServer.json";
-	static HighscoreList highscoreList = new HighscoreList();
+	private final String savePath = "highscoreServer.json";
+	
+	//TODO: kein static  (weils nicht so schnell geht)
+	HighscoreList highscoreList = new HighscoreList();
 	
 
 	public static void main(String[] args) {
@@ -35,19 +31,13 @@ public class FlappyBirdServer {
 		FlappyBirdServer server = new FlappyBirdServer();
 		ServerReciveFromClient t1 = new ServerReciveFromClient("Listener 1", server);
 		t1.start();		
-		/*
-	 * TODO:
-	 * Einen Reader einbauen der die highscoreServer.json einließt
-	 * überprüfen ob die vom client übergebenen Highscores schon in der highscoreServer.json vorhanden sind
-	 * ansonsten diese der highscoreServer.json anhängen
-	 */
 	}
 	
 	FlappyBirdServer() {
 		readHighscores();
 	}
 	
-	public static void writeHighscore(HighscoreList highscoreList2) {
+	public void writeHighscore(HighscoreList highscoreList2) {
 		
 		try (Writer writer = new FileWriter(savePath)) {
 			Gson gson = new GsonBuilder().create();
@@ -76,29 +66,30 @@ public class FlappyBirdServer {
 			e.printStackTrace();
 		}
 		
-		//Wenn die eingelesene hl gültig ist, soll sie alst objektatribut festgelegt werden
+		//Wenn die eingelesene hl gültig ist, soll sie als objektatribut festgelegt werden
+		//um nullpointer exeption zu umgehen
 		if(hl != null) {
-			HighscoreObject.highscoreList = hl;				
+			highscoreList = hl;				
 		}		
 	}
 
 	
 	/**
 	 * Ueberprueft ob die uebergebenen highscores bereits in der Server highscoreList sind
-	 * ansonsten werden diese hinzugefügen
+	 * ansonsten werden diese hinzugefügen 
 	 * 
 	 * Zum Schluss wird der ServerHighscore sortiert
 	 * 
-	 * @param resivedHighscoreList Objekt der Klasse HighscoreList
+	 * @param receivedHighscoreListAsObject Objekt der Klasse HighscoreList
 	 */
-	public void checkHighscores(HighscoreList resivedHighscoreList) {
+	public void checkHighscores(HighscoreList receivedHighscoreListAsObject) {
 		
-		ArrayList<HighscoreObject> resevedHighscoreList = resivedHighscoreList.getHighscores();
+		ArrayList<HighscoreObject> receivedHighscoreListAsArrayList = receivedHighscoreListAsObject.getHighscores();
 		ArrayList<HighscoreObject> serverHighscoreList = highscoreList.getHighscores();
 		
-		for (HighscoreObject serverHLItem : resevedHighscoreList) {
-			if(!serverHighscoreList.contains(serverHLItem)) {
-				serverHighscoreList.add(serverHLItem);
+		for (HighscoreObject receivedHighscoreListItem : receivedHighscoreListAsArrayList) {
+			if(!serverHighscoreList.contains(receivedHighscoreListItem)) {
+				serverHighscoreList.add(receivedHighscoreListItem);
 			}
 		}
 		

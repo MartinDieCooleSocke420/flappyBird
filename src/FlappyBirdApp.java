@@ -44,13 +44,13 @@ public class FlappyBirdApp extends JFrame {
 	private JPanel menu = new JPanel(new GridBagLayout());
 	
 	//Nach Architektur des Model-View-Presenter
-	//als objektattribut
-	private FlappyBirdCanvas backgroundCanvas = new FlappyBirdCanvas();; //Am ende der View
-	private FlappyBirdPresenter presenter; //Am ende der Presenter
-	
-	//ein collection Set fï¿½r die Steuerung
-	private Set<Integer> statusTasten = new HashSet<Integer>();  //TODO: Benötigt????
-		
+	private FlappyBirdCanvas backgroundCanvas = new FlappyBirdCanvas();; //Am Ende der View
+	private FlappyBirdPresenter presenter; //Am Ende der Presenter
+
+	//ein collection Set fuer die Steuerung
+	//wird benoetigt, auch wenn eclipse das so nicht sagt!!!!
+	private Set<Integer> statusTasten = new HashSet<Integer>();  
+
 	public static void main(String[] args) {
 		FlappyBirdApp window = new FlappyBirdApp("FlappyBird by Marvin und Martin"); //erstellt JFrame
 		window.setVisible(true); 	
@@ -64,7 +64,7 @@ public class FlappyBirdApp extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
-		//Standart Schwierigkeit:
+		//Standard Schwierigkeit:
 		difficulty[0] = 10; //roehrenabstand
 		difficulty[1] = 10; //roehrenspeed
 		difficulty[2] = 2; //birdspeed	
@@ -74,15 +74,12 @@ public class FlappyBirdApp extends JFrame {
 	}
 		
 	private void initialize() {		
-		presenter = new FlappyBirdPresenter(this); //setzt presenter
+		presenter = new FlappyBirdPresenter(this); //Setzt presenter
 		presenter.syncDifficulty();
 		
 		add(menu);
 		
-//		add(backgroundCanvas); //TODO: Add eigentlich hier? siehe zeile 122
-		
-		
-		//ereignisbehandlung
+		//Ereignisbehandlung
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
 
 			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -105,7 +102,6 @@ public class FlappyBirdApp extends JFrame {
 		 */
 
 		menu.setBackground(Color.DARK_GRAY);
-//		add(menu);
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.insets = new Insets(10,10,10,10);
@@ -115,7 +111,7 @@ public class FlappyBirdApp extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				started = true;
-				add(backgroundCanvas);  //TODO: WARUM ADD HIER??? 
+				add(backgroundCanvas); 
 				menu.setVisible(false);
 				backgroundCanvas.setVisible(true);
 			}
@@ -134,26 +130,16 @@ public class FlappyBirdApp extends JFrame {
 				highscoreDialog.setSize(500, 500);
 				highscoreDialog.setResizable(false);
 				highscoreDialog.setLocationRelativeTo(null);					
-				
-				//TESTDATA:
-				String[][] testData = {			
-			            { "Gib deinen Namen ein", "18.0"},
-			            { "Martin", "12.0" },
-			            { "Maritn :P", "30.0"},
-			            { "sdafsfdgdfg", "6.0"},
-			            { "Martin J. Brucker", "132.0"}	               
-			        };
 			        
-			       
 		        String[] columnNames = {"Name", "Highscore"};
-//		        data [][] = 
 				
 		    	presenter.readHighscores();
 		    	
 				JTable highscores = new JTable(presenter.getHighscoreArray(), columnNames);
-		        highscores.setBounds(30, 40, 200, 300);
+		        JScrollPane highscoreScreen = new JScrollPane(highscores);
 		        
-				highscoreDialog.add(highscores);
+		        
+				highscoreDialog.add(highscoreScreen);
 				highscoreDialog.setModal(true);	
 				highscoreDialog.setVisible(true);
 
@@ -254,7 +240,7 @@ public class FlappyBirdApp extends JFrame {
 	public FlappyBirdCanvas getFlappyBirdCanvas() {
 		return backgroundCanvas;
 	}
-	
+
 	public void setStatusTasten(Set<Integer> statusTasten) {
 		this.statusTasten = statusTasten;
 	}

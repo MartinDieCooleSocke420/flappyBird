@@ -5,26 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.lang.reflect.Type;
-import java.net.NoRouteToHostException;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
+
 
 public class HighscoreObject {
 	
@@ -33,7 +20,7 @@ public class HighscoreObject {
 	private double highscore = 0;
 	
 	public static HighscoreList highscoreList = new HighscoreList();
-	//TODO: WENN NICHT STATISCH java.lang.StackOverflowError !!!???
+	//TODO: read/write highscore auslagern
 	
 	private static final String savePath = "highscores.json"; 
 	
@@ -91,12 +78,6 @@ public class HighscoreObject {
 	
 	}
 
-	@Override
-	public String toString() {
-		return "HighscoreObject [pName=" + pName + ", passes=" + passes + ", highscore=" + highscore + "]";
-	}
-
-
 	public static void writeHighscore(HighscoreList highscoreList) {
 				
 		//Sortieren der ArrayListe vor dem Abspeichern
@@ -107,9 +88,7 @@ public class HighscoreObject {
 		
 		Gson gson = new Gson();
 		String highscoreListAsJson = gson.toJson(highscoreList);
-		
-		System.out.println(highscoreListAsJson);
-		
+			
 		try (FileWriter fw = new FileWriter(savePath)) {
 			fw.write(highscoreListAsJson);			
 		} catch (IOException e) {
@@ -159,8 +138,11 @@ public class HighscoreObject {
 	}
 
 	
-	
-	//Wandelt die ArrayList<HighscoreObjects> in ein Array für die Textausgabe in einem JTable um und gibt dieses Array zurück
+	/**
+	 * Wandelt die ArrayList<HighscoreObjects> in ein Array für die Textausgabe in einem JTable um und gibt dieses Array zurück
+	 * 
+	 * @return ArrayList as String Array
+	 */
 	public String[][] getHighscoreArray() {
 		
 		ArrayList<HighscoreObject> hl = highscoreList.getHighscores();

@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
@@ -25,7 +24,6 @@ public class ClientSendToServer extends Thread {
 		
 		Gson gson = new Gson();
         		
-		//TODO: Extra Thread hierfür einfügen, damit es immernoch geht
 		try (Socket socket = new Socket(hostName, port)){
 
 			BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream())); // Inputstream vom Server
@@ -35,7 +33,7 @@ public class ClientSendToServer extends Thread {
 			socketOut.println(gson.toJson(HighscoreObject.highscoreList));
 
 			
-			//TODO: Hier kommt die aktuelle Higshscoreliste an
+			// Hier kommt die aktuelle Higshscoreliste an
 			msgFromServer = socketIn.readLine();
 		
 			

@@ -2,25 +2,8 @@ package model;
 
 import java.util.List;
 import java.util.function.Predicate;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.ArrayList;
-import java.util.Collection;
+
 
 public class Background {
 
@@ -61,15 +44,8 @@ public class Background {
 		gameObjects.add(gameObject);
 	}
 	
-	public boolean removeGameObjects(String name) {
-		//TODO: implementieren erwï¿½hnt 02d_Java_Swing_OceanApp_Teil3 min 47
-		return true;
-	}
-	
 	public List<ImageObject> getGameObjects(){
-		return java.util.Collections.unmodifiableList(gameObjects);
-		//ï¿½bergibt unverï¿½nderbare list damit der View beim zugriff nichts verï¿½ndern kann
-	}
+		return java.util.Collections.unmodifiableList(gameObjects);	}
 
 	public void moveAll() {	
 		for (GameObject gameObject : gameObjects) {
@@ -79,8 +55,8 @@ public class Background {
 			if (gameObject instanceof Bird) {	
 				for (GameObject gameObject1 : gameObjects) {
 					
-					//ï¿½berprï¿½fung ob ein Objekt mit Bird kollidiert
-					//ist auf einem Abstrakten level wie von herr Prieïss in 03b_Teil4 gezeigt
+					//Ueberpruefung ob ein Objekt mit Bird kollidiert
+					//ist auf einem Abstrakten level wie von Herr Prieïss in 03b_Teil4 gezeigt
 					//es wuerde hier reichen nur auf Tubes zu pruefen,
 					//durch spaetere Features kann es jedoch pracktisch sein es so Abstrackt wie moeglich zu implementieren
 					if(!(gameObject1 instanceof Bird) && gameObject.intersect(gameObject1)) {
@@ -89,7 +65,6 @@ public class Background {
 				}
 			}			
 		}
-		
 		
 		//Entfernt die toten GameObjects, welche kollidiert sind aus der GameObject list
 		Predicate<GameObject> myPredicate = (GameObject o) -> (o.dead);
@@ -109,11 +84,9 @@ public class Background {
 		
 		
 		for (GameObject gameObject : gameObjects) {
-			
-			//Wenn game Object eine Tube
 			if(gameObject.getClass() == Tube.class) {
 
-				//Die vorherigen tubes mï¿½ssen beim abstand spawnen
+				//Die vorherigen tubes muessen beim abstand zum rechtsn rand (width ist da max) spawnen
 				if(width - gameObject.getX() < abstand) {
 					toCreate = false;
 				}
@@ -122,8 +95,8 @@ public class Background {
 		}
 		
 		
-		//gap ist hierbei nicht die Lï¿½cke sondern eher die hï¿½henverschiebung um welche beide rï¿½hren auf y verschoben wird
-		//je grï¿½ï¿½er der Multiplikator von random() ist desto grï¿½ï¿½er sind die schwankungen
+		//gap ist hierbei nicht die Luecke sondern eher die hoehenverschiebung um welche beide roehren auf y verschoben wird
+		//je groesser der Multiplikator von random() ist desto groesser sind die schwankungen
 		double gap = Math.random()*350;
 		
 		if(toCreate) {
@@ -134,28 +107,39 @@ public class Background {
 		}
 		
 	}
-
-
-	//zum ï¿½berprï¿½fen ob Objekt im 
+	
+	public void reset() {
+		gameObjects.removeAll(gameObjects);
+		highscore = new HighscoreObject();
+		bird = null;
+	}
+	
+	public void generateBird() {
+		bird = (Bird) GameObjectFactory.createGameObject("Player1", 
+				GameObjectFactory.BIRD, 150, 200, this,  difficulty[2]);
+		gameObjects.add(bird);
+	}
+	
 	public boolean isObjectInBackground(double x, double y, double width, double height) {
 		return (x > 0 && x + width < this.width && y > 0 && y + height < this.height);
+		
 	}
+	
+	public void writeHighscore() {
+		HighscoreObject.writeHighscore(highscore.getHighscoreList());
+		
+	}
+	
+	//Setter & Getter
 
 	public void setDifficulty(double[] difficulty) {
 		this.difficulty = difficulty;
-		
 	}
 	
 	public boolean isBirdDead() {
 		return bird.dead;
 	}
 	
-	public void generateBird() {
-		bird = (Bird) GameObjectFactory.createGameObject("Player1", 
-//				GameObjectFactory.BIRD, 150, 200, this, difficulty[2]);
-				GameObjectFactory.BIRD, 150, 200, this,  difficulty[2]);
-		gameObjects.add(bird);
-	}
 
 	public HighscoreObject getHighscore() {
 		return highscore;
@@ -163,17 +147,6 @@ public class Background {
 
 	public void setHighscoreName(String text) {
 		highscore.setName(text);
-	}
-
-	public void reset() {
-		gameObjects.removeAll(gameObjects);
-		highscore = new HighscoreObject();
-		bird = null;
-	}
-
-	public void writeHighscore() {
-		HighscoreObject.writeHighscore(highscore.getHighscoreList());
-		
 	}
 
 	public void addHighscore() {

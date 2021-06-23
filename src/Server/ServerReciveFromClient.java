@@ -6,13 +6,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
+
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import model.HighscoreList;
-import model.HighscoreObject;
+
 
 public class ServerReciveFromClient extends Thread {
 
@@ -25,6 +23,7 @@ public class ServerReciveFromClient extends Thread {
 		this.fBserver = fBserver;
 	}
 	
+	//TODO: protokoll lösung 2
 	public void run() {
 		int port = 4242;
 		
@@ -36,6 +35,7 @@ public class ServerReciveFromClient extends Thread {
 				
 				HighscoreList hs = new HighscoreList();
 
+				//in extern auslagern
 				try (Socket socket = server.accept()) { // try-with-resources, Auf Verbindung warten, Methode blockiert
 					socket.setSoTimeout(5000);
 
@@ -51,12 +51,14 @@ public class ServerReciveFromClient extends Thread {
 					//und abschliessend abgespeichert					
 					if(hs != null) {
 						fBserver.checkHighscores(hs);
-						FlappyBirdServer.writeHighscore(FlappyBirdServer.highscoreList);
+						
+						//TODO: nicht sinvoll da bereits refferenz bekannt, folge aus nicht mehr static
+						fBserver.writeHighscore(fBserver.highscoreList);
 					}
 					
 					//Zurückgeben der ServerHighscorelist an den Client
-					if(hs != FlappyBirdServer.highscoreList)
-						socketOut.println(gson.toJson(FlappyBirdServer.highscoreList));
+					if(hs != fBserver.highscoreList)
+						socketOut.println(gson.toJson(fBserver.highscoreList));
 					
 				} catch (IOException e) {
 					e.printStackTrace();

@@ -1,7 +1,0 @@
-Ist die implementierung von der röhren generation ordentlich? - beantwortet
-Restart Button nach dem Spiel - beantwortet
-Einlesen von HighscoreList
-GameOver richtig anzeigen (gridbag layout buggy) -erledigt
-
-Menü Background: Image Importieren
-https://stackoverflow.com/questions/17330908/how-to-put-a-background-image-on-gridbaglayout

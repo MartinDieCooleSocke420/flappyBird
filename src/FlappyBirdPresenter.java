@@ -18,8 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import model.Background;
-import model.HighscoreObject;
-
 
 //PRESENTER
 public class FlappyBirdPresenter {
@@ -143,14 +141,16 @@ public class FlappyBirdPresenter {
 		restart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				background.setHighscoreName(playerName.getText());
 				
-				background.writeHighscore();
-				createNewGame();
-				endScreen.setVisible(false);
-					
-				}
-			});
+				if(isNameFilled(playerName.getText()) == true) {
+				
+					background.setHighscoreName(playerName.getText());
+					background.writeHighscore();
+					createNewGame();
+					endScreen.setVisible(false);
+					}	
+				}});
+
 			
 		JButton end = new JButton("END GAME");
 		end.addActionListener(new ActionListener() {
@@ -184,6 +184,26 @@ public class FlappyBirdPresenter {
 		endScreen.setVisible(true);		
 		
 	}
+	
+	private boolean isNameFilled(String pName) {
+		if(pName == "" || pName == " " || pName == null) {
+			return false;
+		}
+
+		JDialog nameDialog = new JDialog();
+		JLabel nameLabel = new JLabel("Gib bitte einen Namen ein!!!!!!!!!!");
+		
+		nameDialog.add(nameLabel);
+		nameDialog.setSize(250, 100);
+		nameDialog.setResizable(false);
+		nameDialog.setLocationRelativeTo(null);
+		nameDialog.setVisible(true);		
+		
+		
+		return false;
+
+	}
+	
 
 
 	public void addStatusTasten(int gedruckteTaste) {

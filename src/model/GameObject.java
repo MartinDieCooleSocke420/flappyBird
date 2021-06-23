@@ -7,13 +7,14 @@ public abstract class GameObject implements ImageObject{
 	private String name;
 	private Image image;
 	
-	//protected damit aus subklasse zugegriffen werden kann (keine getter/setter nötig)
+	//protected damit aus subklasse zugegriffen werden kann (keine getter/setter nötig) (siehe OceanApp)
 	protected double x, y, width, height;
 	protected Background background;
 	protected boolean dead;
+	protected double speed;
 	
 	
-	public GameObject(String name, double x, double y, double width, double height, Image image, Background background) {
+	public GameObject(String name, double x, double y, double width, double height, Image image, Background background, double speed) {
 		super();
 		this.name = name;
 		this.x = x;
@@ -22,6 +23,7 @@ public abstract class GameObject implements ImageObject{
 		this.height = height;
 		this.image = image;
 		this.background = background;
+		this.speed = speed;
 	}
 	
 	public boolean intersect(GameObject gameObject) {
@@ -60,10 +62,9 @@ public abstract class GameObject implements ImageObject{
 		return name;
 	}
 
+	public double getSpeed() {
+		return speed;
+	}
+	
 	public abstract void move();
-
-	protected abstract double getSpeed();
-
-
-
 }
