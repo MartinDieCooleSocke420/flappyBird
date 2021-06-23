@@ -5,11 +5,10 @@ import java.awt.Image;
 //PlayerObject
 public class Bird extends GameObject {
 	
-	private double speed;
 	private double distanceY;
 
 	public Bird(String name, double x, double y, double width, double height, Image image, Background background, double speed) {
-		super(name, x, y, width, height, image, background,speed);
+		super(name, x, y, width, height, image, background, speed);
 	}
 	
 	public void setDistanceY(double frameTime) {
