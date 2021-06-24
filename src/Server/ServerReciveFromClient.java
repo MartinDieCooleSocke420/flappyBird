@@ -51,8 +51,7 @@ public class ServerReciveFromClient extends Thread {
 					if(hs != null) {
 						fBserver.checkHighscores(hs);
 						
-						//TODO: nicht sinvoll da bereits refferenz bekannt, folge aus nicht mehr static
-						fBserver.writeHighscore(fBserver.highscoreList);
+						fBserver.writeHighscore();
 					}
 					
 					//Zurückgeben der ServerHighscorelist an den Client

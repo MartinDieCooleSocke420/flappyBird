@@ -35,11 +35,11 @@ public class FlappyBirdServer {
 		readHighscores();
 	}
 	
-	public void writeHighscore(HighscoreList highscoreList2) {
+	public void writeHighscore() {
 		
 		try (Writer writer = new FileWriter(savePath)) {
 			Gson gson = new GsonBuilder().create();
-			gson.toJson(highscoreList2, writer);
+			gson.toJson(highscoreList, writer);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
