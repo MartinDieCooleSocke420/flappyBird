@@ -52,7 +52,7 @@ public class FlappyBirdApp extends JFrame {
 		
 		//Standard Schwierigkeit:
 		difficulty[0] = 10; //roehrenabstand
-		difficulty[1] = 10; //roehrenspeed
+		difficulty[1] = 30; //roehrenspeed
 		difficulty[2] = 20; //birdspeed	
 		
 		

@@ -98,7 +98,6 @@ public class HighscoreList {
 		Collections.reverse(highscores);
 
 		return highscores.indexOf(highscoreObject) + 1;
-
 	}
 
 	

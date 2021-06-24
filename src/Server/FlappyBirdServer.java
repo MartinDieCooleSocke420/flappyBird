@@ -21,8 +21,6 @@ import model.HighscoreObject;
 public class FlappyBirdServer {
 
 	private final String savePath = "highscoreServer.json";
-	
-	//TODO: kein static  (weils nicht so schnell geht)
 	HighscoreList highscoreList = new HighscoreList();
 	
 

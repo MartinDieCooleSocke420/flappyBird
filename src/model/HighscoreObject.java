@@ -9,7 +9,6 @@ public class HighscoreObject {
 	private double highscore = 0;
 	
 	public static HighscoreList highscoreList = new HighscoreList();
-	//TODO: read/write highscore auslagern
 
 	/**
 	 * Ueberprueft ob der Spieler gerade eine Roehre durchquert hat und erhoet beim erfolgreichen durchfliegen
@@ -22,11 +21,11 @@ public class HighscoreObject {
 			if(gameObject instanceof Tube) {
 				for (GameObject gameObject1 : gameObjects) {
 					if(gameObject1 instanceof Bird) {
-						
-						//TODO: je nach tube speed funktioniert es nicht
-						if( (int) gameObject.getX() == (int) gameObject1.getX()) {
+						//Da es passieren kann, dass je nach Schwierigkeitseinstellungen die Roehren X und Vogel X koordinaten nie == sind
+						// wird hier geprüft ob ein gewisser abstand vorhanden ist && ob die Roehren annehrernd in der naehre sind 
+						if(gameObject1.getX() - gameObject.getX() < 0 && gameObject1.getX() - gameObject.getX() > -difficulty[1]/2 ) {
 							passes = getPasses() + 1;
-							highscore += difficulty[1] * difficulty[2] - difficulty[0];
+							highscore += (difficulty[1] * difficulty[2] - difficulty[0]) /20;
 							return;
 						}
 					}

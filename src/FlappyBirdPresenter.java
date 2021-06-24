@@ -105,6 +105,7 @@ public class FlappyBirdPresenter {
 		endScreen.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+
 		
 		gbc.gridy = 0;
 		gbc.gridx = 2;
@@ -115,7 +116,6 @@ public class FlappyBirdPresenter {
 			
 		background.addHighscore();
 		
-		//TODO: playerName als Pflichtfeld
 		JTextField playerName = new JTextField(10);
 		playerName.setForeground(Color.BLACK);
 		playerName.setBackground(Color.WHITE);

@@ -15,7 +15,6 @@ import model.HighscoreList;
 public class ServerReciveFromClient extends Thread {
 
 	
-	public boolean isStarted = false;
 	private FlappyBirdServer fBserver;
 
 	public ServerReciveFromClient (String name, FlappyBirdServer fBserver){
