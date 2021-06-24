@@ -1,24 +1,15 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -29,11 +20,6 @@ import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.TableModel;
-
-import model.HighscoreList;
-import model.HighscoreObject;
-import model.ImageObject;
 
 public class FlappyBirdApp extends JFrame {
 	
@@ -67,7 +53,7 @@ public class FlappyBirdApp extends JFrame {
 		//Standard Schwierigkeit:
 		difficulty[0] = 10; //roehrenabstand
 		difficulty[1] = 10; //roehrenspeed
-		difficulty[2] = 2; //birdspeed	
+		difficulty[2] = 20; //birdspeed	
 		
 		
 		initialize();
@@ -165,7 +151,7 @@ public class FlappyBirdApp extends JFrame {
 				difficultyDialog.setLayout(new GridLayout(0, 1));
 				
 				JLabel tubeDistanceLbl = new JLabel("Tube Distance");
-				JSlider tubeDistance = new JSlider();
+				JSlider tubeDistance = new JSlider(5, 90);
 				difficultyDialog.add(tubeDistanceLbl);
 				difficultyDialog.add(tubeDistance);
 				tubeDistance.setMinorTickSpacing(10);
@@ -183,7 +169,7 @@ public class FlappyBirdApp extends JFrame {
 				
 				
 				JLabel tubeSpeedLbl = new JLabel("Tube Speed");
-				JSlider tubeSpeed = new JSlider();
+				JSlider tubeSpeed = new JSlider(5, 90);
 				difficultyDialog.add(tubeSpeedLbl);
 				difficultyDialog.add(tubeSpeed);
 				tubeSpeed.setMinorTickSpacing(10);
@@ -199,7 +185,7 @@ public class FlappyBirdApp extends JFrame {
 				});
 				
 				JLabel birdSpeedLbl = new JLabel("Bird Speed");
-				JSlider birdSpeed = new JSlider();
+				JSlider birdSpeed = new JSlider(5, 90);
 				difficultyDialog.add(birdSpeedLbl);
 				difficultyDialog.add(birdSpeed);
 				birdSpeed.setMinorTickSpacing(10);

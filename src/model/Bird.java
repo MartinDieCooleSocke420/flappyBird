@@ -13,7 +13,7 @@ public class Bird extends GameObject {
 	
 	public void setDistanceY(double frameTime) {
 		//berechnet aus der gravitation und frametime eine Geschwindigkeit fuer den player
-		distanceY += +frameTime * speed - 1;
+		distanceY += frameTime * speed/10 ;
 	}
 
 	@Override

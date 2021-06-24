@@ -71,13 +71,13 @@ public class Background {
 		gameObjects.removeIf(myPredicate);
 
 		
-		highscore.checkHighscore(gameObjects);		
+		highscore.checkHighscore(gameObjects, difficulty);		
 	}
 	
 	public void generateTube() {
 		
 		
-		double abstand = difficulty[0] * 100; //nach wieviel pxl vom canvas eine neue r�hre kommen soll
+		double abstand = difficulty[0] * 70; //nach wieviel pxl vom canvas eine neue r�hre kommen soll
 		double speed = difficulty[1];
 		
 		boolean toCreate = true;
@@ -126,7 +126,7 @@ public class Background {
 	}
 	
 	public void writeHighscore() {
-		HighscoreObject.writeHighscore(highscore.getHighscoreList());
+		highscore.getHighscoreList().writeHighscore();
 		
 	}
 	
@@ -134,6 +134,8 @@ public class Background {
 
 	public void setDifficulty(double[] difficulty) {
 		this.difficulty = difficulty;
+		if(bird != null)
+			bird.speed = difficulty[2];
 	}
 	
 	public boolean isBirdDead() {

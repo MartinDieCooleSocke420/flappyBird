@@ -131,24 +131,20 @@ public class FlappyBirdPresenter {
 		gbc.gridx = 3;
 		gbc.gridy = 1;
 		endScreen.add(new JLabel("Highscore: " + background.getHighscore().getHighscoreValue()), gbc);
-		//	TODO: Highscore plazierung anzeigen lassen, muss noch im background gemacht werden
+
 		gbc.gridy = 3;
 		gbc.gridy = 0;
-		endScreen.add(new JLabel("HighscorePlatz: " + background.getHighscore().getHighscorePlacement() ), gbc);
+		endScreen.add(new JLabel("HighscorePlatz: " + background.getHighscore().getHighscoreList().getHighscorePlacement(background.getHighscore()) ), gbc);
 	
 			
 		JButton restart = new JButton("RESTART");
 		restart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				if(isNameFilled(playerName.getText()) == true) {
-				
 					background.setHighscoreName(playerName.getText());
 					background.writeHighscore();
 					createNewGame();
-					endScreen.setVisible(false);
-					}	
+					endScreen.setVisible(false);	
 				}});
 
 			
@@ -184,27 +180,6 @@ public class FlappyBirdPresenter {
 		endScreen.setVisible(true);		
 		
 	}
-	
-	private boolean isNameFilled(String pName) {
-		if(pName == "" || pName == " " || pName == null) {
-			return false;
-		}
-
-		JDialog nameDialog = new JDialog();
-		JLabel nameLabel = new JLabel("Gib bitte einen Namen ein!!!!!!!!!!");
-		
-		nameDialog.add(nameLabel);
-		nameDialog.setSize(250, 100);
-		nameDialog.setResizable(false);
-		nameDialog.setLocationRelativeTo(null);
-		nameDialog.setVisible(true);		
-		
-		
-		return false;
-
-	}
-	
-
 
 	public void addStatusTasten(int gedruckteTaste) {
 		 statusTasten.add(gedruckteTaste);
@@ -222,6 +197,6 @@ public class FlappyBirdPresenter {
 	}
 
 	public void readHighscores() {
-		background.getHighscore().readHighscores();
+		background.getHighscore().getHighscoreList().readHighscores();
 	}
 }

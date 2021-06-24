@@ -31,7 +31,6 @@ public class ClientSendToServer extends Thread {
 
 			
 			socketOut.println(gson.toJson(HighscoreObject.highscoreList));
-
 			
 			// Hier kommt die aktuelle Higshscoreliste an
 			msgFromServer = socketIn.readLine();
