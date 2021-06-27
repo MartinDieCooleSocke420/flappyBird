@@ -57,10 +57,6 @@ public abstract class GameObject implements ImageObject{
 	public double getHeight() {
 		return height;
 	}
-	
-	public String getName() {
-		return name;
-	}
 
 	public double getSpeed() {
 		return speed;

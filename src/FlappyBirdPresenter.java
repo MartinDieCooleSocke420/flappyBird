@@ -78,7 +78,7 @@ public class FlappyBirdPresenter {
 	private void updatePlayer() {
 		
 		//Da immer auf der Y-Achse addiert wird ist ein Clear nötig, ansonsten unspielbar
-		background.getBird().ClearDistances();
+		background.getBird().clearDistances();
 		
 		if(statusTasten.contains(KeyEvent.VK_W) || //fï¿½r WASD
 				statusTasten.contains(KeyEvent.VK_UP) || //fï¿½r Pfeiltasten

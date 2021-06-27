@@ -90,14 +90,12 @@ public class HighscoreList {
 		t1.start();
 	}
 	
-	//TODO: Funktioniert noch nicht, gerade zu müde das zu machen, mach ich morgen
 	public int getHighscorePlacement(HighscoreObject highscoreObject) {
 		
 		//Sortieren der highscores
 		highscores.sort(Comparator.comparing(HighscoreObject::getHighscoreValue));
 		Collections.reverse(highscores);
-
-		return highscores.indexOf(highscoreObject) + 1;
+		return highscores.indexOf(highscoreObject) + 1;	
 	}
 
 	
@@ -121,13 +119,6 @@ public class HighscoreList {
 		
 		return data;
 		
-	}
-	
-	
-
-	@Override
-	public String toString() {
-		return "HighscoreList [highscores=" + highscores + "]";
 	}
 
 	public void setHighscores(ArrayList<HighscoreObject> highscores) {

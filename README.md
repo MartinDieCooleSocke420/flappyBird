@@ -4,13 +4,13 @@ DHSH WINF - Grundlagen der Programmierung 2
 
 von Marvin und Martin
 
+in JavaSE-15 (jre)
+
 ## Anleitung
+`1. Den Server starten unter src/Server/FlappyBirdServer.java`
+`2. Den Client starten unter src/FlappyBirdApp.java `
 
-1. Den Server starten unter src/Server/FlappyBirdServer.java
-2. Den Client starten unter src/FlappyBirdApp.java
-
-
-## Abhänigkeiten:
+## Abhängigkeiten:
 [Gson 2.8.7 ](https://github.com/google/gson/releases/tag/gson-parent-2.8.7)
 
 Beschreibung unter:

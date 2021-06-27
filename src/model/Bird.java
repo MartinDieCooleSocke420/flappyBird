@@ -27,7 +27,7 @@ public class Bird extends GameObject {
 		dead = false;		
 	}
 
-	public void ClearDistances() {
+	public void clearDistances() {
 		distanceY = 0.0;
 		
 	}
