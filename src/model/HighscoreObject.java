@@ -26,6 +26,8 @@ public class HighscoreObject {
 						if(gameObject1.getX() - gameObject.getX() < 0 && gameObject1.getX() - gameObject.getX() > -difficulty[1]/2 ) {
 							passes = getPasses() + 1;
 							highscore += (difficulty[1] * difficulty[2] - difficulty[0]) /20;
+							
+							highscore = Math.round(highscore * 100) / 100; //auf 2 nachkommerstellen runden
 							return;
 						}
 					}
