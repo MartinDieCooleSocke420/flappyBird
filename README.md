@@ -8,6 +8,8 @@ in JavaSE-15 (jre)
 
 ## Anleitung
 `1. Den Server starten unter src/Server/FlappyBirdServer.java`
+
+
 `2. Den Client starten unter src/FlappyBirdApp.java `
 
 ## Abhängigkeiten:
