@@ -12,7 +12,7 @@ in JavaSE-15 (jre)
 
 `2. Den Client starten unter src/FlappyBirdApp.java `
 
-## Abhängigkeiten:
+## Abhaengigkeiten:
 [Gson 2.8.7 ](https://github.com/google/gson/releases/tag/gson-parent-2.8.7)
 
 Beschreibung unter:
